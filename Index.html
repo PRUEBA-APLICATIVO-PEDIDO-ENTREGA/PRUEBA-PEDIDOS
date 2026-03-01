@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía Completa — Don Emilio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rojo:#c0392b; --cafe:#5d3a1a; --cafe-mid:#7d4e2a;
+  --crema:#fdf6ec; --dorado:#d4a843; --verde:#27ae60;
+  --gris:#6b7280; --azul:#2563eb;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:#f8f4ef; color:var(--cafe); }
+
+.page-header { background:linear-gradient(135deg,#1a0a02,var(--cafe) 40%,var(--rojo));
+  padding:60px 40px; text-align:center; }
+.page-header h1 { font-family:'Playfair Display',serif; font-size:2.8rem; color:#f0c76a; margin-bottom:10px; }
+.page-header p { color:rgba(255,255,255,.75); font-size:1.05rem; max-width:600px; margin:0 auto; }
+
+.container { max-width:900px; margin:0 auto; padding:40px 24px; }
+
+/* PHASE CARDS */
+.phase { background:white; border-radius:20px; margin-bottom:28px;
+  box-shadow:0 4px 24px rgba(93,58,26,.1); overflow:hidden; }
+.phase-header { display:flex; align-items:center; gap:16px; padding:22px 28px;
+  cursor:pointer; user-select:none; transition:background .2s; }
+.phase-header:hover { background:#fdf6ec; }
+.phase-num { width:48px; height:48px; border-radius:14px; display:flex; align-items:center;
+  justify-content:center; font-family:'Playfair Display',serif; font-size:1.3rem;
+  font-weight:800; color:white; flex-shrink:0; }
+.phase-num.firebase { background:linear-gradient(135deg,#f57c00,#ff9800); }
+.phase-num.sheets { background:linear-gradient(135deg,#0f9d58,#34a853); }
+.phase-num.github { background:linear-gradient(135deg,#24292e,#586069); }
+.phase-num.wa { background:linear-gradient(135deg,#25d366,#128c7e); }
+.phase-num.test { background:linear-gradient(135deg,var(--rojo),var(--cafe)); }
+.phase-title { flex:1; }
+.phase-title h2 { font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:800; color:var(--cafe); }
+.phase-title p { font-size:.85rem; color:var(--gris); margin-top:3px; }
+.phase-arrow { font-size:1.2rem; transition:transform .3s; }
+.phase-arrow.open { transform:rotate(180deg); }
+.phase-body { display:none; padding:8px 28px 28px; border-top:1px solid rgba(93,58,26,.08); }
+.phase-body.open { display:block; }
+
+/* STEPS */
+.step { display:flex; gap:16px; margin-bottom:22px; }
+.step-num { width:28px; height:28px; border-radius:50%; background:var(--rojo); color:white;
+  display:flex; align-items:center; justify-content:center; font-size:.8rem;
+  font-weight:800; flex-shrink:0; margin-top:2px; }
+.step-content h3 { font-weight:700; color:var(--cafe); margin-bottom:6px; font-size:.95rem; }
+.step-content p { color:var(--gris); font-size:.88rem; line-height:1.7; }
+
+/* CODE BLOCKS */
+.code-block { background:#1e1e1e; border-radius:12px; padding:16px 18px;
+  margin:12px 0; position:relative; overflow-x:auto; }
+.code-block pre { color:#d4d4d4; font-family:'DM Mono',monospace; font-size:.82rem; line-height:1.7; white-space:pre-wrap; }
+.code-block .comment { color:#6a9955; }
+.code-block .string { color:#ce9178; }
+.code-block .key { color:#9cdcfe; }
+.copy-btn { position:absolute; top:10px; right:10px; background:rgba(255,255,255,.1);
+  border:none; color:white; border-radius:8px; padding:5px 10px; font-size:.75rem;
+  cursor:pointer; transition:background .2s; font-family:'DM Sans',sans-serif; }
+.copy-btn:hover { background:rgba(255,255,255,.2); }
+
+/* ALERTS */
+.alert { border-radius:10px; padding:14px 16px; margin:12px 0; font-size:.87rem; line-height:1.6; }
+.alert.warning { background:#fef3c7; border-left:4px solid var(--dorado); color:#92400e; }
+.alert.success { background:#d1fae5; border-left:4px solid var(--verde); color:#065f46; }
+.alert.info { background:#dbeafe; border-left:4px solid var(--azul); color:#1e40af; }
+.alert.danger { background:#fee2e2; border-left:4px solid var(--rojo); color:#991b1b; }
+
+/* TABLE */
+.data-table { width:100%; border-collapse:collapse; margin:12px 0; font-size:.85rem; }
+.data-table th { background:var(--cafe); color:white; padding:10px 12px; text-align:left; }
+.data-table td { padding:10px 12px; border-bottom:1px solid #f0e6d8; color:var(--gris); }
+.data-table tr:last-child td { border-bottom:none; }
+.data-table tr:hover td { background:#fdf6ec; }
+
+/* CHECKLIST */
+.checklist { list-style:none; margin:12px 0; }
+.checklist li { display:flex; align-items:flex-start; gap:10px; padding:6px 0;
+  border-bottom:1px dashed rgba(93,58,26,.12); font-size:.88rem; color:var(--gris); }
+.checklist li:last-child { border-bottom:none; }
+.checklist li input[type=checkbox] { margin-top:2px; accent-color:var(--rojo); flex-shrink:0; }
+
+/* BADGE */
+.badge { display:inline-block; padding:2px 10px; border-radius:50px;
+  font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+.badge.free { background:#d1fae5; color:#065f46; }
+.badge.req { background:#fee2e2; color:#991b1b; }
+.badge.opt { background:#dbeafe; color:#1e40af; }
+
+/* ARCHITECTURE */
+.arch-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px; margin:16px 0; }
+.arch-card { background:var(--crema); border:1px solid rgba(93,58,26,.12);
+  border-radius:12px; padding:16px; text-align:center; }
+.arch-icon { font-size:2rem; margin-bottom:8px; }
+.arch-title { font-weight:700; font-size:.88rem; color:var(--cafe); margin-bottom:4px; }
+.arch-sub { font-size:.75rem; color:var(--gris); }
+
+/* FINAL */
+.final-banner { background:linear-gradient(135deg,var(--cafe),#922b21);
+  border-radius:20px; padding:40px; text-align:center; margin-top:20px; }
+.final-banner h2 { font-family:'Playfair Display',serif; font-size:1.8rem; color:#f0c76a; margin-bottom:10px; }
+.final-banner p { color:rgba(255,255,255,.75); line-height:1.7; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🥩 Don Emilio</h1>
+  <p>Guía completa de instalación — Sistema de Pedidos para Embutidos & Lácteos</p>
+</div>
+
+<div class="container">
+
+  <!-- ARQUITECTURA -->
+  <div class="phase" style="margin-bottom:28px;">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num" style="background:linear-gradient(135deg,var(--cafe),var(--rojo));">🏗️</div>
+      <div class="phase-title">
+        <h2>Arquitectura del Sistema</h2>
+        <p>Cómo funcionan todas las piezas juntas</p>
+      </div>
+      <span class="phase-arrow">▼</span>
+    </div>
+    <div class="phase-body open">
+      <div class="arch-grid">
+        <div class="arch-card">
+          <div class="arch-icon">🌐</div>
+          <div class="arch-title">GitHub Pages</div>
+          <div class="arch-sub">Hosting gratis del sitio web</div>
+        </div>
+        <div class="arch-card">
+          <div class="arch-icon">🔥</div>
+          <div class="arch-title">Firebase</div>
+          <div class="arch-sub">Base de datos + Login en tiempo real</div>
+        </div>
+        <div class="arch-card">
+          <div class="arch-icon">📊</div>
+          <div class="arch-title">Google Sheets</div>
+          <div class="arch-sub">Registro automático de pedidos</div>
+        </div>
+        <div class="arch-card">
+          <div class="arch-icon">📧</div>
+          <div class="arch-title">Gmail / Apps Script</div>
+          <div class="arch-sub">Correos automáticos a proveedor y cliente</div>
+        </div>
+        <div class="arch-card">
+          <div class="arch-icon">💬</div>
+          <div class="arch-title">WhatsApp</div>
+          <div class="arch-sub">Notificación instantánea de nuevos pedidos</div>
+        </div>
+      </div>
+      <div class="alert info">
+        <strong>Flujo completo:</strong><br>
+        Cliente hace pedido → Firebase guarda en tiempo real → Apps Script registra en Sheets + envía correo al proveedor + correo de confirmación al cliente → WhatsApp se abre automáticamente con el resumen del pedido.
+      </div>
+      <table class="data-table">
+        <tr><th>Servicio</th><th>Costo</th><th>Límite gratis</th></tr>
+        <tr><td>GitHub Pages</td><td class="badge free">Gratis</td><td>Ilimitado</td></tr>
+        <tr><td>Firebase Firestore</td><td class="badge free">Gratis</td><td>50,000 lecturas/día</td></tr>
+        <tr><td>Firebase Auth</td><td class="badge free">Gratis</td><td>10,000 usuarios</td></tr>
+        <tr><td>Google Sheets + Apps Script</td><td class="badge free">Gratis</td><td>Ilimitado</td></tr>
+        <tr><td>Gmail (envío de correos)</td><td class="badge free">Gratis</td><td>100 correos/día</td></tr>
+        <tr><td>WhatsApp (link directo)</td><td class="badge free">Gratis</td><td>Ilimitado</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- FASE 1: FIREBASE -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num firebase">1</div>
+      <div class="phase-title">
+        <h2>🔥 Configurar Firebase</h2>
+        <p>Base de datos en tiempo real + sistema de login</p>
+      </div>
+      <span class="phase-arrow">▼</span>
+    </div>
+    <div class="phase-body open">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Crear proyecto en Firebase</h3>
+          <p>Ve a <strong>console.firebase.google.com</strong> → haz clic en <strong>"Crear un proyecto"</strong> → Ponle nombre: <code>don-emilio-pedidos</code> → Desactiva Google Analytics (no lo necesitas) → clic en "Crear proyecto".</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Agregar una aplicación Web</h3>
+          <p>En la pantalla principal de tu proyecto → clic en el ícono <strong>&lt;/&gt;</strong> (Web) → Nombre: "Don Emilio Web" → NO actives Firebase Hosting → clic en "Registrar app".</p>
+          <p style="margin-top:8px;">Firebase te mostrará un bloque de configuración así. <strong>Copia estos valores</strong>, los necesitas para el index.html:</p>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><span class="comment">// Tu configuración (los valores serán diferentes)</span>
+const firebaseConfig = {
+  <span class="key">apiKey</span>: <span class="string">"AIzaSyXXXXXXXXXXXXXXXXXXXXXX"</span>,
+  <span class="key">authDomain</span>: <span class="string">"don-emilio-pedidos.firebaseapp.com"</span>,
+  <span class="key">projectId</span>: <span class="string">"don-emilio-pedidos"</span>,
+  <span class="key">storageBucket</span>: <span class="string">"don-emilio-pedidos.appspot.com"</span>,
+  <span class="key">messagingSenderId</span>: <span class="string">"123456789012"</span>,
+  <span class="key">appId</span>: <span class="string">"1:123456789:web:abcdef123456"</span>
+};</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Activar Firestore (base de datos)</h3>
+          <p>Menú izquierdo → <strong>Build → Firestore Database</strong> → "Crear base de datos" → Selecciona <strong>"Comenzar en modo de producción"</strong> → Ubicación: <strong>us-central1</strong> → "Habilitar".</p>
+          <div class="alert warning">⚠️ En la pestaña "Reglas" de Firestore, pega el contenido del archivo <strong>firestore.rules</strong> que viene en el paquete. Cambia los emails por los tuyos antes de publicar.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Activar Authentication (login)</h3>
+          <p>Menú izquierdo → <strong>Build → Authentication</strong> → "Comenzar" → Pestaña "Sign-in method" → Habilita <strong>"Correo electrónico/contraseña"</strong> → Guardar.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>Crear usuarios (tú y tus clientes)</h3>
+          <p>En Authentication → pestaña <strong>"Users"</strong> → "Agregar usuario" → crea primero TU cuenta (proveedor) con tu correo y una contraseña segura. Después crea una cuenta por cada tienda cliente.</p>
+          <div class="alert info">
+            <strong>Ejemplo de usuarios a crear:</strong><br>
+            • tuCorreo@gmail.com / tuContraseña123 → <strong>Proveedor</strong><br>
+            • tienda.esperanza@gmail.com / pass123 → <strong>Tienda La Esperanza</strong><br>
+            • abarrotes.sol@gmail.com / pass456 → <strong>Abarrotes El Sol</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h3>Pegar tu configuración en index.html</h3>
+          <p>Abre el archivo <strong>index.html</strong> → busca la sección que dice <code>TU_API_KEY</code> (línea ~20) → reemplaza los valores con los que copiaste en el paso 2.</p>
+          <div class="alert success">✅ Después de este paso Firebase ya funciona: guarda pedidos, autentica usuarios y los actualiza en tiempo real.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FASE 2: GOOGLE SHEETS + APPS SCRIPT -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num sheets">2</div>
+      <div class="phase-title">
+        <h2>📊 Google Sheets + Apps Script</h2>
+        <p>Registro automático + correos electrónicos</p>
+      </div>
+      <span class="phase-arrow">▼</span>
+    </div>
+    <div class="phase-body">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Crear el Google Sheets</h3>
+          <p>Ve a <strong>sheets.google.com</strong> → crea una hoja nueva → nómbrala <strong>"Don Emilio — Pedidos"</strong> → en la primera pestaña (abajo) renómbrala a <strong>Pedidos</strong> (clic derecho → Cambiar nombre).</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Crear los encabezados manualmente (opcional)</h3>
+          <p>En la fila 1 escribe en cada columna: <strong>Referencia | Fecha | Cliente | Email | Productos | Total | Notas | Status | Hora</strong>. El Apps Script también los crea automáticamente si no los pones.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Abrir Apps Script</h3>
+          <p>En tu Sheets → menú <strong>Extensiones → Apps Script</strong> → se abre el editor → borra todo lo que hay → pega el contenido completo del archivo <strong>apps_script.gs</strong>.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Configurar tus datos en el script</h3>
+          <p>Al inicio del script cambia estos valores:</p>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre>const CONFIG = {
+  <span class="key">EMAIL_PROVEEDOR</span>: <span class="string">'tuCorreo@gmail.com'</span>,  <span class="comment">// ← Tu correo real</span>
+  <span class="key">NOMBRE_EMPRESA</span>:  <span class="string">'Don Emilio'</span>,           <span class="comment">// ← Nombre de tu negocio</span>
+  <span class="key">WA_PROVEEDOR</span>:    <span class="string">'523312345678'</span>,         <span class="comment">// ← Tu WhatsApp (52 + número)</span>
+  <span class="key">HOJA_PEDIDOS</span>:    <span class="string">'Pedidos'</span>,              <span class="comment">// ← No cambiar</span>
+};</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>Desplegar como Web App (esto es la clave)</h3>
+          <p>En Apps Script → clic en <strong>"Implementar"</strong> (botón azul, arriba derecha) → "Nueva implementación" → Tipo: <strong>Aplicación web</strong> → Ejecutar como: <strong>Yo</strong> → Quién puede acceder: <strong>Cualquier usuario</strong> → "Implementar" → Autoriza con tu cuenta de Google.</p>
+          <div class="alert warning">🔑 Copia la <strong>URL de la implementación</strong> que aparece. Es algo como: <code>https://script.google.com/macros/s/AKfycb.../exec</code></div>
+          <p style="margin-top:8px;">Esta URL va a ir en el index.html donde dice <code>TU_APPS_SCRIPT_URL</code>. Con esto cada pedido llega automáticamente al Sheets Y se envían los correos.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h3>Agregar la URL al index.html</h3>
+          <p>En el <strong>index.html</strong>, busca la función <code>enviarPedido()</code>. Después del bloque de Firebase, agrega esta llamada:</p>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+            <pre><span class="comment">// Agregar justo después de: await _fb.addDoc(...)</span>
+
+<span class="comment">// Enviar a Google Sheets + correos automáticos</span>
+const APPS_SCRIPT_URL = <span class="string">'https://script.google.com/macros/s/TU_URL_AQUI/exec'</span>;
+fetch(APPS_SCRIPT_URL, {
+  method: <span class="string">'POST'</span>,
+  headers: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
+  body: JSON.stringify(pedido),
+  mode: <span class="string">'no-cors'</span>
+}).catch(console.error);</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <h3>Probar el sistema</h3>
+          <p>En Apps Script → menú desplegable selecciona <strong>probarSistema</strong> → clic en ▶️ Ejecutar → acepta permisos → revisa tu Sheets (debe aparecer una fila de prueba) y tu correo (deben llegar 2 emails).</p>
+          <div class="alert success">✅ Si ves la fila en Sheets y recibes los correos, ¡el sistema funciona perfectamente!</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FASE 3: GITHUB -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num github">3</div>
+      <div class="phase-title">
+        <h2>🐙 GitHub Pages — Publicar el sitio</h2>
+        <p>Hosting gratis con URL profesional</p>
+      </div>
+      <span class="phase-arrow">▼</span>
+    </div>
+    <div class="phase-body">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Crear repositorio en GitHub</h3>
+          <p>Ve a <strong>github.com</strong> → clic en <strong>"New repository"</strong> → Nombre: <code>don-emilio</code> → marca <strong>Public</strong> → marca <strong>"Add a README file"</strong> → "Create repository".</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Subir el index.html</h3>
+          <p>En tu repositorio → clic en <strong>"Add file" → "Upload files"</strong> → arrastra el archivo <strong>index.html</strong> → en el campo de commit escribe "Primer versión de la app" → clic en <strong>"Commit changes"</strong>.</p>
+          <div class="alert warning">⚠️ Asegúrate de haber pegado tu configuración de Firebase ANTES de subir el archivo. El sitio no funcionará si el index.html aún tiene "TU_API_KEY".</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Activar GitHub Pages</h3>
+          <p>En tu repositorio → pestaña <strong>Settings</strong> → menú izquierdo: <strong>Pages</strong> → en "Branch" selecciona <strong>main</strong> → carpeta: <strong>/ (root)</strong> → clic en <strong>"Save"</strong>.</p>
+          <p style="margin-top:8px;">Espera 2-3 minutos. GitHub Pages te dará una URL como:</p>
+          <div class="code-block">
+            <pre>https://TU-USUARIO.github.io/don-emilio/</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Agregar dominio autorizado en Firebase</h3>
+          <p>En Firebase Console → Authentication → pestaña <strong>"Settings"</strong> → sección <strong>"Authorized domains"</strong> → "Add domain" → agrega exactamente: <code>TU-USUARIO.github.io</code></p>
+          <div class="alert danger">🔴 OBLIGATORIO — Si no haces esto, el login no funcionará en tu sitio publicado.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>Actualizar el sitio cuando hagas cambios</h3>
+          <p>Edita el index.html en tu computadora → ve a GitHub → tu repositorio → clic en <strong>index.html</strong> → ícono de lápiz ✏️ → pega el nuevo código → "Commit changes". El sitio se actualiza en ~2 minutos.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FASE 4: WHATSAPP -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num wa">4</div>
+      <div class="phase-title">
+        <h2>💬 WhatsApp — Notificaciones</h2>
+        <p>Alertas instantáneas de nuevos pedidos</p>
+      </div>
+      <span class="phase-arrow">▼</span>
+    </div>
+    <div class="phase-body">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>¿Cómo funciona?</h3>
+          <p>Cuando el cliente envía un pedido, la app abre automáticamente WhatsApp con un mensaje pre-llenado para TI (el proveedor) con todos los detalles del pedido. Sin APIs de pago, sin configuración extra. Funciona con el WhatsApp que ya tienes.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Formato del mensaje automático</h3>
+          <div class="code-block">
+            <pre>🛒 *NUEVO PEDIDO — Don Emilio*
+Ref: #DE-241203
+Cliente: Tienda La Esperanza
+Correo: esperanza@gmail.com
+
+📦 Productos:
+• Chorizo Rojo (3 kg) — $267
+• Queso Oaxaca (2 kg) — $220
+
+💰 Total: $487
+📝 Notas: Por favor entregar antes de las 10am</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Cambiar tu número de WhatsApp</h3>
+          <p>En el <strong>index.html</strong>, busca la línea:</p>
+          <div class="code-block">
+            <pre>const WA_PROVEEDOR = <span class="string">'523327963109'</span>; <span class="comment">// ← Cambia por tu número</span>
+<span class="comment">// Formato: 52 + código de área + número (sin +, sin espacios, sin guiones)</span>
+<span class="comment">// Ejemplo Guadalajara: 52 + 33 + 12345678 = 523312345678</span></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FASE 5: PRUEBA FINAL -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num test">5</div>
+      <div class="phase-title">
+        <h2>✅ Prueba Final — Checklist</h2>
+        <p>Verifica que todo funciona antes de darlo a los clientes</p>
+      </div>
+      <span class="phase-arrow">▼</span>
+    </div>
+    <div class="phase-body">
+
+      <div class="alert info"><strong>Orden de verificación recomendada:</strong> Firebase → Sheets → GitHub → prueba completa con un pedido real de prueba.</div>
+
+      <ul class="checklist">
+        <li><input type="checkbox"> Firebase Console → Authentication → aparece al menos 1 usuario</li>
+        <li><input type="checkbox"> Firebase Console → Firestore → existe la base de datos</li>
+        <li><input type="checkbox"> Apps Script → función probarSistema ejecutada sin errores</li>
+        <li><input type="checkbox"> Google Sheets → pestaña "Pedidos" tiene una fila de datos de prueba</li>
+        <li><input type="checkbox"> Correo del proveedor → llegó email con formato de Don Emilio</li>
+        <li><input type="checkbox"> Correo del cliente → llegó email de confirmación</li>
+        <li><input type="checkbox"> GitHub Pages → sitio disponible en la URL pública</li>
+        <li><input type="checkbox"> Firebase Auth → dominio de GitHub Pages autorizado</li>
+        <li><input type="checkbox"> Login funciona en el sitio publicado como cliente</li>
+        <li><input type="checkbox"> Login funciona como proveedor (tu correo)</li>
+        <li><input type="checkbox"> Agregar producto al carrito y llega al total</li>
+        <li><input type="checkbox"> Enviar pedido → abre WhatsApp con el mensaje correcto</li>
+        <li><input type="checkbox"> El pedido aparece en Firestore (Firebase Console → Firestore)</li>
+        <li><input type="checkbox"> El pedido aparece en Google Sheets</li>
+        <li><input type="checkbox"> Como proveedor, el pedido aparece en el panel</li>
+        <li><input type="checkbox"> Como proveedor, cambiar status de "Pendiente" a "Confirmado"</li>
+        <li><input type="checkbox"> Como cliente, ver el cambio de status en "Mis Pedidos" (tiempo real)</li>
+      </ul>
+
+      <div class="alert success">
+        <strong>🎉 Si todos los puntos están marcados, el sistema está 100% listo para producción.</strong><br>
+        Ya puedes compartir la URL de GitHub Pages a tus clientes con sus usuarios y contraseñas.
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FASE 6: AGREGAR CLIENTES -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num" style="background:linear-gradient(135deg,var(--dorado),#b8860b);">6</div>
+      <div class="phase-title">
+        <h2>👥 Agregar Nuevos Clientes</h2>
+        <p>Cómo dar acceso a una nueva tienda</p>
+      </div>
+      <span class="phase-arrow">▼</span>
+    </div>
+    <div class="phase-body">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Crear su cuenta en Firebase</h3>
+          <p>Firebase Console → Authentication → Users → "Agregar usuario" → Correo y contraseña de la tienda.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Darles acceso</h3>
+          <p>Comparte con ellos:<br>
+          • <strong>URL del sitio:</strong> https://TU-USUARIO.github.io/don-emilio/<br>
+          • <strong>Correo:</strong> el que registraste en Firebase<br>
+          • <strong>Contraseña:</strong> la que pusiste</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Cambiar el nombre visible del cliente</h3>
+          <p>Para que en vez de "correo@gmail.com" aparezca "Tienda La Esperanza", en Firebase Auth → Users → clic en el usuario → edita el campo "Display name".</p>
+        </div>
+      </div>
+
+      <div class="alert info">
+        💡 <strong>Tip:</strong> Puedes dar la misma contraseña inicial a todos y pedirles que no la compartan. Firebase no tiene (en el plan gratis) funcionalidad de "cambiar contraseña" desde el sitio, pero puedes agregar esa función después si la necesitas.
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PROBLEMAS COMUNES -->
+  <div class="phase">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-num" style="background:linear-gradient(135deg,#6b7280,#374151);">❓</div>
+      <div class="phase-title">
+        <h2>🔧 Problemas Comunes y Soluciones</h2>
+        <p>Si algo no funciona, revisa aquí primero</p>
+      </div>
+      <span class="phase-arrow">▼</span>
+    </div>
+    <div class="phase-body">
+
+      <table class="data-table">
+        <tr><th>Problema</th><th>Causa</th><th>Solución</th></tr>
+        <tr>
+          <td>Login no funciona en GitHub Pages</td>
+          <td>Dominio no autorizado en Firebase</td>
+          <td>Firebase → Auth → Settings → Authorized domains → agregar tu-usuario.github.io</td>
+        </tr>
+        <tr>
+          <td>No llegan correos</td>
+          <td>Apps Script no tiene permisos</td>
+          <td>Ejecuta probarSistema → acepta todos los permisos de Google que pida</td>
+        </tr>
+        <tr>
+          <td>Los pedidos no se guardan en Sheets</td>
+          <td>URL del Apps Script incorrecta o modo no-cors</td>
+          <td>Verifica que pegaste la URL correcta en index.html. Re-despliega el Apps Script si cambias el código.</td>
+        </tr>
+        <tr>
+          <td>Error "permission-denied" en Firestore</td>
+          <td>Reglas de seguridad muy restrictivas</td>
+          <td>Firebase → Firestore → Rules → verifica que los emails del proveedor están correctos</td>
+        </tr>
+        <tr>
+          <td>Proveedor no ve los pedidos de otros</td>
+          <td>Su email no está en PROVEEDOR_EMAILS</td>
+          <td>En index.html busca PROVEEDOR_EMAILS y agrega su correo exacto</td>
+        </tr>
+        <tr>
+          <td>WhatsApp abre pero el mensaje está vacío</td>
+          <td>El encodeURIComponent falló</td>
+          <td>Abre la consola del navegador (F12) y busca el error. Generalmente es un carácter especial en el nombre del producto.</td>
+        </tr>
+        <tr>
+          <td>El sitio muestra página en blanco</td>
+          <td>Error en el index.html</td>
+          <td>Abre F12 → Console → lee el error. Lo más común es que Firebase config tenga comillas mal copiadas.</td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+
+  <div class="final-banner">
+    <h2>🥩 ¡Sistema Listo!</h2>
+    <p>Con esta guía y los archivos incluidos tienes un sistema profesional completo: base de datos en tiempo real, correos automáticos, WhatsApp, panel de proveedor con rutas y todo gratis.<br><br>
+    <strong style="color:#f0c76a;">Archivos del paquete:</strong><br>
+    📄 index.html — La app completa<br>
+    📝 apps_script.gs — El script para Sheets y correos<br>
+    🔒 firestore.rules — Reglas de seguridad<br>
+    📖 guia.html — Esta guía
+    </p>
+  </div>
+
+</div>
+
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.phase-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+function copyCode(btn) {
+  const pre = btn.nextElementSibling;
+  navigator.clipboard.writeText(pre.textContent);
+  btn.textContent = '✓ Copiado';
+  setTimeout(()=>btn.textContent='Copiar', 2000);
+}
+</script>
+</body>
+</html>
