@@ -1482,16 +1482,41 @@ tbody tr:hover td{background:var(--cr)}
 </div>
 
 <!-- Cambiar Estatus Pedido -->
-<div class="mover" id="modal-estatus">
-  <div class="mbox">
-    <div class="mhd"><h3>Cambiar Estatus</h3><button class="btn-x" onclick="closeModal('modal-estatus')">✕</button></div>
+<div class="mover" id="modal-estatus" onclick="if(event.target===this)closeModal('modal-estatus')">
+  <div class="mbox" style="max-width:420px">
+    <div class="mhd">
+      <h3>📦 Cambiar Estatus</h3>
+      <button class="btn-x" onclick="closeModal('modal-estatus')">✕</button>
+    </div>
     <div class="mbd">
       <input type="hidden" id="est-id"/>
-      <div class="fg"><label>Nuevo Estatus</label>
-        <select id="est-val">
-          <option value="pendiente">Pendiente</option>
-          <o
-<!-- html2canvas para generar imagen del ticket -->
+
+      <!-- Info del pedido -->
+      <div id="est-pedido-info" style="background:var(--cr2);border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:13px"></div>
+
+      <!-- Selector de estatus visual -->
+      <div class="fg" style="margin-bottom:0">
+        <label>Nuevo Estatus</label>
+        <select id="est-val" onchange="previewEstatusMsg()"
+          style="width:100%;padding:12px;border:2px solid var(--cr3);border-radius:var(--r2);font-size:14px;font-family:inherit;outline:none">
+          <option value="pendiente">🕐 Pendiente</option>
+          <option value="preparando">👨‍🍳 Preparando</option>
+          <option value="en_camino">🚚 En camino</option>
+          <option value="entregado">✅ Entregado</option>
+          <option value="cancelado">❌ Cancelado</option>
+        </select>
+      </div>
+
+      <!-- Preview del mensaje WA -->
+      <div id="est-wa-preview" style="margin-top:12px;display:none">
+        <div style="font-size:11px;font-weight:700;color:var(--ox);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">
+          📱 Mensaje que recibirá el cliente
+        </div>
+        <div id="est-wa-msg" style="background:#e8f5e9;border-radius:10px;padding:12px 14px;
+          font-size:12px;color:#1a6b42;line-height:1.7;white-space:pre-wrap;
+          border-left:3px solid #27AE60;font-family:inherit"></div>
+        <div style="margin-top:8px;display:flex;align-items:center;gap:6px">
+<!-- html2canvas para imagen del ticket -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <!-- Firebase SDK -->
@@ -1522,6 +1547,7 @@ tbody tr:hover td{background:var(--cr)}
 </script>
 
 <script>
+
 
 
 
@@ -2842,19 +2868,95 @@ function verTicketPedido(pedId){
   const p=PEDIDOS.find(x=>x.id===pedId);
   if(p) showTicket(p);
 }
+// Mensajes WA por estatus
+const ESTATUS_MSGS = {
+  "pendiente":  "🕐 Hola {nombre}, tu pedido (Ref: *{id}*) fue recibido y está en espera de preparación.\n\nTotal: *${total} MXN*\n\n¡Gracias por tu preferencia! 🙏",
+  "preparando": "👨‍🍳 Hola {nombre}, tu pedido (Ref: *{id}*) ya está siendo preparado.\n\nEstamos alistando todo con cuidado. Te avisamos cuando salga. ✅",
+  "en_camino":  "🚚 Hola {nombre}, tu pedido (Ref: *{id}*) ya va *en camino*.\n\nNuestro repartidor está en ruta hacia tu negocio. ¡Nos vemos pronto!",
+  "entregado":  "✅ Hola {nombre}, tu pedido (Ref: *{id}*) fue *entregado* exitosamente.\n\nTotal cobrado: *${total} MXN*\n\n¡Gracias por tu compra! Hasta la próxima. 🙏",
+  "cancelado":  "❌ Hola {nombre}, lamentamos informarte que tu pedido (Ref: *{id}*) fue *cancelado*.\n\nPor favor contáctanos para más información. Disculpa los inconvenientes. 🙏"
+};
+
 function abrirCambioEstatus(pedId){
-  document.getElementById('est-id').value=pedId;
-  const p=PEDIDOS.find(x=>x.id===pedId);
-  if(p) document.getElementById('est-val').value=p.estatus;
+  const p   = PEDIDOS.find(x=>x.id===pedId);
+  const cli = p ? CLIENTES.find(c=>c.id===p.cliId) : null;
+  if(!p) return;
+
+  document.getElementById('est-id').value = pedId;
+  document.getElementById('est-val').value = p.estatus||'pendiente';
+
+  // Info del pedido
+  const infoEl = document.getElementById('est-pedido-info');
+  if(infoEl){
+    infoEl.innerHTML =
+      '<div style="display:flex;justify-content:space-between;align-items:center">' +
+      '<div>' +
+      '<div style="font-weight:700;color:var(--ox)">Pedido #'+pedId+'</div>' +
+      '<div style="color:var(--gris);margin-top:2px">'+p.fecha+' · '+(cli?cli.nombre:'—')+'</div>' +
+      '</div>' +
+      '<div style="font-weight:800;font-size:16px;color:var(--ox)">$'+(p.total||0).toFixed(2)+'</div>' +
+      '</div>';
+  }
+
+  // Preview del mensaje
+  previewEstatusMsg();
   openModal('modal-estatus');
 }
+
+function previewEstatusMsg(){
+  const pedId = parseInt(document.getElementById('est-id').value);
+  const val   = document.getElementById('est-val').value;
+  const p     = PEDIDOS.find(x=>x.id===pedId);
+  const cli   = p ? CLIENTES.find(c=>c.id===p.cliId) : null;
+  const prev  = document.getElementById('est-wa-preview');
+  const msgEl = document.getElementById('est-wa-msg');
+  if(!prev||!msgEl) return;
+
+  if(!cli||!cli.tel){
+    prev.style.display='none'; return;
+  }
+
+  const tpl = ESTATUS_MSGS[val] || '';
+  const msg = tpl
+    .replace(/{nombre}/g, cli.nombre)
+    .replace(/{id}/g, pedId)
+    .replace(/{total}/g, (p?.total||0).toFixed(2));
+
+  msgEl.textContent = msg;
+  prev.style.display = 'block';
+}
+
 function aplicarEstatus(){
-  const id=parseInt(document.getElementById('est-id').value);
-  const val=document.getElementById('est-val').value;
-  const p=PEDIDOS.find(x=>x.id===id);
-  if(p){p.estatus=val;showToast('Estatus actualizado','success');}
+  const id  = parseInt(document.getElementById('est-id').value);
+  const val = document.getElementById('est-val').value;
+  const p   = PEDIDOS.find(x=>x.id===id);
+  if(!p){ closeModal('modal-estatus'); return; }
+
+  const oldEstatus = p.estatus;
+  p.estatus = val;
+
+  // Guardar en Firebase
+  fbSet('pedidos', p.id, p);
+
+  // Enviar WA si está activo y el estatus cambió
+  const enviarWA = document.getElementById('est-enviar-wa')?.checked;
+  const cli = CLIENTES.find(c=>c.id===p.cliId);
+
+  if(enviarWA && cli && cli.tel && val !== oldEstatus){
+    const tpl = ESTATUS_MSGS[val]||'';
+    const msg = tpl
+      .replace(/{nombre}/g, cli.nombre)
+      .replace(/{id}/g, id)
+      .replace(/{total}/g, (p.total||0).toFixed(2));
+    const tel = cli.tel.replace(/\D/g,'');
+    setTimeout(()=>{
+      window.open('https://wa.me/52'+tel+'?text='+encodeURIComponent(msg),'_blank');
+    }, 300);
+  }
+
   closeModal('modal-estatus');
   filtrarHistorial();
+  showToast('Estatus: '+val+' ✓','success');
 }
 
 // ════════════════════════════════════════════════
@@ -3695,6 +3797,7 @@ function mostrarPreviewWA(imgUrl, tel, msg, pedidoId){
     </div>`;
   document.body.appendChild(modal);
 }
+
 
 
 </script>
