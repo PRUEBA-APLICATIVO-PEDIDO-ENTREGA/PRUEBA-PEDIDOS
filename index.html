@@ -5,17 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Demo Nando — Sistema Admin</title>
 <style>
-.rst-opt{display:flex;align-items:center;gap:12px;padding:11px 14px;
-  border:2px solid var(--cr3);border-radius:12px;cursor:pointer;transition:.2s;
-  background:var(--cr);user-select:none;}
-.rst-opt.active{border-color:var(--ro);background:#fdf0f0;}
-.rst-ico{font-size:18px;flex-shrink:0}
-.rst-lbl{font-size:13px;font-weight:700;color:var(--neg)}
-.rst-sub{font-size:11px;color:var(--gris);margin-top:1px}
-.rst-chk{width:22px;height:22px;border-radius:50%;background:var(--ro);color:#fff;
-  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
-.rst-opt:not(.active) .rst-chk{background:var(--cr3);color:var(--gris2);}
-
 /* ── Checklist ctrl ──────────────────── */
 .chk-ctrl{display:flex;align-items:center;gap:6px;flex-shrink:0;}
 /* ── Ganancias kpi mini ──────────────── */
@@ -711,10 +700,6 @@ tbody tr:hover td{background:var(--cr)}
 .user-av-big{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;flex-shrink:0;}
 .perm-chk{width:18px;height:18px;cursor:pointer;accent-color:var(--ox);}
 </style>
-
-  <!-- Firebase SDK -->
-  
-
 </head>
 <body>
 
@@ -725,8 +710,8 @@ tbody tr:hover td{background:var(--cr)}
 <div id="screen-login">
   <div class="login-box">
     <div class="login-logo-wrap">
-      <div class="login-logo">🍯</div>
-      <h1>Demo Nando</h1>
+      <div class="login-logo">🥩</div>
+      <h1>Don Emilio</h1>
       <div class="login-sub">Sistema Administrativo</div>
     </div>
     <div class="lf">
@@ -749,27 +734,28 @@ tbody tr:hover td{background:var(--cr)}
   <!-- TOP BAR -->
   <div class="app-top">
     <button class="top-menu-btn" onclick="toggleDrawer()">☰</button>
-    <div class="top-logo">🍯</div>
+    <div class="top-logo">🥩</div>
     <span class="top-title" id="top-title">Dashboard</span>
-    <span id="fb-status" style="font-size:10px;font-weight:600;opacity:.85;margin-right:10px;letter-spacing:.3px"></span><span class="top-date" id="top-date"></span>
+    <span id="fb-status" style="font-size:10px;font-weight:700;opacity:.9;margin-right:10px"></span><span class="top-date" id="top-date"></span>
     <div style="position:relative;display:inline-block">
-    <button class="top-bell" id="btn-notif" title="Notificaciones" onclick="toggleNotifPanel()">
-      🔔
-      <span id="notif-badge" style="position:absolute;top:-2px;right:-2px;background:var(--ro);color:#fff;
-        font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:50%;padding:0 2px;
-        display:none;align-items:center;justify-content:center;line-height:1;pointer-events:none"></span>
-    </button>
-    <div id="notif-panel" style="display:none;position:absolute;top:calc(100% + 8px);right:0;
-      width:320px;background:var(--bl);border-radius:16px;
-      box-shadow:0 8px 32px rgba(0,0,0,.18);border:1px solid var(--cr3);z-index:9999;
-      overflow:hidden;max-height:480px;overflow-y:auto">
-      <div style="padding:14px 16px;border-bottom:1px solid var(--cr3);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bl)">
-        <div style="font-weight:800;font-size:14px">🔔 Notificaciones</div>
-        <button onclick="marcarTodasLeidas()" style="font-size:11px;color:var(--ox);background:none;border:none;cursor:pointer;font-weight:600">Marcar leídas</button>
-      </div>
-      <div id="notif-list"></div>
+  <button class="top-bell" id="btn-notif" onclick="toggleNotifPanel()" title="Notificaciones" style="position:relative">
+    🔔
+    <span id="notif-badge" style="position:absolute;top:-3px;right:-3px;background:var(--ro);color:#fff;
+      font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:50%;
+      display:none;align-items:center;justify-content:center;pointer-events:none"></span>
+  </button>
+  <div id="notif-panel" style="display:none;position:absolute;top:calc(100% + 8px);right:0;
+    width:300px;background:var(--bl);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.15);
+    border:1px solid var(--cr3);z-index:9999;overflow:hidden;max-height:400px;overflow-y:auto">
+    <div style="padding:12px 16px;border-bottom:1px solid var(--cr3);font-weight:800;font-size:13px;
+      display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bl)">
+      🔔 Notificaciones
+      <button onclick="NOTIFICACIONES=[];renderNotifBadge();document.getElementById('notif-list').innerHTML='<div style=padding:16px;text-align:center;color:var(--gris)>Sin notificaciones 🎉</div>'"
+        style="background:none;border:none;font-size:11px;color:var(--ox);cursor:pointer;font-weight:600">Limpiar</button>
     </div>
+    <div id="notif-list"></div>
   </div>
+</div>
   </div>
 
   <!-- OVERLAY -->
@@ -778,9 +764,9 @@ tbody tr:hover td{background:var(--cr)}
   <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
     <div class="sb-head">
-      <div class="sb-logo">🍯</div>
+      <div class="sb-logo">🥩</div>
       <div>
-        <div class="sb-brand">Demo Nando</div>
+        <div class="sb-brand">Don Emilio</div>
         <div class="sidebar-sub">Sistema Admin</div>
       </div>
       <button class="sb-x" onclick="closeDrawer()">✕</button>
@@ -1003,7 +989,7 @@ tbody tr:hover td{background:var(--cr)}
         <div class="ph"><div class="ph-l"><h2>Pedido a Proveedor</h2><p>Lista de reabastecimiento</p></div></div>
         <div style="display:flex;gap:8px">
           <button class="btn btn-s" onclick="marcarTodosChk()">☑ Todos</button>
-          <button class="btn btn-ok" onclick="descargarChecklistPDF()">📥 Descargar PDF</button>
+          <button class="btn btn-ok" onclick="imprimirChecklist()">🖨 Imprimir</button>
           <button class="btn btn-p" onclick="enviarChecklistWA()">📱 WhatsApp</button>
         </div>
       </div>
@@ -1231,68 +1217,28 @@ tbody tr:hover td{background:var(--cr)}
         </div>
       </div>
       <div class="cfg-sec">
-        <h3>🗺️ Google Maps API</h3>
-        <div class="fg"><label>API Key</label><input type="text" id="cfg-maps-key" placeholder="AIzaSy..."/></div>
-        <button class="btn btn-p" onclick="guardarMapsKey()">Guardar Key</button>
-        <p style="font-size:11px;color:var(--gris);margin-top:8px">Necesaria para visualizar rutas en el mapa</p>
-      </div>
-      <div class="cfg-sec">
-        <h3>🔥 Firebase</h3>
-        <div class="fg"><label>API Key Firebase</label><input type="text" id="cfg-fb-key" placeholder="AIzaSy..."/></div>
-        <div class="fg"><label>Project ID</label><input type="text" id="cfg-fb-proj" placeholder="mi-proyecto"/></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-p" onclick="guardarConfig()">💾 Guardar</button>
-          <button class="btn btn-g" onclick="probarFirebase()">🔌 Probar Conexión</button>
+        <h3>💾 Respaldo</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+          <button class="btn btn-p" onclick="exportarDatos()">📥 Descargar JSON</button>
+          <button class="btn btn-s" onclick="exportarCSV()">📊 CSV Clientes</button>
         </div>
-      </div>
-      <div class="cfg-sec">
-        <h3>💾 Respaldo de Información</h3>
-        <p style="font-size:12px;color:var(--gris);margin-bottom:12px">
-          Los datos se guardan automáticamente en <strong>Firebase</strong>.<br>
-          Descarga un respaldo manual en JSON cuando lo necesites.
-        </p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-          <button class="btn btn-p" onclick="hacerBackupYRegistrar()">📥 Descargar Respaldo JSON</button>
-          <button class="btn btn-s" onclick="exportarCSV()">📊 Descargar CSV Clientes</button>
-        </div>
-        <div style="margin-top:14px;padding:14px 16px;background:var(--cr2);border-radius:14px;border:1.5px solid var(--cr3)">
-          <div style="font-size:12px;font-weight:700;color:var(--ox);margin-bottom:4px">🔄 Sincronización Manual con Firebase</div>
-          <div style="font-size:11px;color:var(--gris);margin-bottom:10px;line-height:1.6">
-            Sube todos los clientes, productos y datos actuales a Firebase.<br>
-            Úsalo la primera vez que despliegues el sistema o cuando agregues datos nuevos.
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div style="background:var(--cr2);border-radius:12px;padding:12px 14px">
+          <div style="font-size:12px;font-weight:700;color:var(--ox);margin-bottom:6px">🔄 Sincronizar con Firebase</div>
+          <div style="font-size:11px;color:var(--gris);margin-bottom:10px">Sube todos los clientes y productos. Úsalo la primera vez o al agregar datos masivos.</div>
+          <div style="display:flex;align-items:center;gap:10px">
             <button id="btn-forzar-seed" onclick="fbForzarSeed(false)"
-              style="padding:10px 18px;background:var(--ox);color:#fff;border:none;border-radius:10px;
-              font-weight:700;font-size:13px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px"
-              onmouseover="this.style.background='var(--ox2)'" onmouseout="this.style.background='var(--ox)'">
+              style="padding:9px 16px;background:var(--ox);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">
               🔄 Forzar Sincronización
             </button>
-            <span id="seed-status" style="font-size:11px;color:var(--gris)"></span>
           </div>
-        </div>
-        <div style="margin-top:10px;padding:10px 12px;background:var(--cr2);border-radius:var(--r2);font-size:12px;color:var(--gris)">
-          <strong style="color:var(--ox)">🔥 Firebase activo</strong> — sincronización en tiempo real.<br>
-          <span id="prox-backup-info" style="color:var(--gris)">Respaldo automático cada 15 días.</span><br> — cada pedido, cobro y movimiento se guarda en la nube en tiempo real.<br>
-          El respaldo JSON incluye: clientes, productos, pedidos, cobros, movimientos y usuarios.
         </div>
       </div>
-      <div class="cfg-sec" style="border:2px solid #f5b7b7;border-radius:16px">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-          <span style="font-size:20px">🔧</span>
-          <div>
-            <div style="font-weight:800;font-size:14px;color:var(--neg)">Sistema</div>
-            <div style="font-size:11px;color:var(--gris)">v5.0 — Don Emilio</div>
-          </div>
-          <div id="fb-status-cfg" style="margin-left:auto;font-size:11px;font-weight:600"></div>
+      <div class="cfg-sec" style="border:1.5px solid #f5b7b7;border-radius:14px">
+        <h3>🔧 Sistema</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-d" onclick="mostrarResetSimple()">🗑 Reset</button>
         </div>
-        <button onclick="mostrarResetSimple()"
-          style="width:100%;padding:13px;background:linear-gradient(135deg,#922b21,#B01C1C);
-          color:#fff;border:none;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;
-          letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:8px"
-          onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
-          🗑 Reset del Sistema
-        </button>
+        <p style="font-size:11px;color:var(--gris);margin-top:8px">v5.0 — Don Emilio</p>
       </div>
     </div>
 
@@ -1474,9 +1420,37 @@ tbody tr:hover td{background:var(--cr)}
   <div class="mbox">
     <div class="mhd"><h3>🧾 Ticket de Venta</h3><button class="btn-x" onclick="closeModal('modal-ticket')">✕</button></div>
     <div class="mbd" id="ticket-body" style="font-family:monospace;font-size:13px"></div>
+    <div class="mft">
+      <button class="btn btn-s" onclick="closeModal('modal-ticket')">Cerrar</button>
+      <button class="btn btn-p" onclick="window.print()">🖨 Imprimir</button>
+    </div>
   </div>
 </div>
-<!-- END modal-ticket -->
+
+<!-- Cambiar Estatus Pedido -->
+<div class="mover" id="modal-estatus">
+  <div class="mbox">
+    <div class="mhd"><h3>Cambiar Estatus</h3><button class="btn-x" onclick="closeModal('modal-estatus')">✕</button></div>
+    <div class="mbd">
+      <input type="hidden" id="est-id"/>
+      <div class="fg"><label>Nuevo Estatus</label>
+        <select id="est-val">
+          <option value="pendiente">Pendiente</option>
+          <option value="preparando">Preparando</option>
+          <option value="en_camino">En camino</option>
+          <option value="entregado">Entregado</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-s" onclick="closeModal('modal-estatus')">Cancelar</button>
+      <button class="btn btn-p" onclick="aplicarEstatus()">Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 
 <!-- Firebase SDK -->
 <script type="module">
@@ -1484,220 +1458,27 @@ tbody tr:hover td{background:var(--cr)}
   import { getFirestore, collection, doc, setDoc, addDoc, getDoc, getDocs,
            updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp
          } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDty_jwhFLSCSpd1ev1oslgKS6ZKe8f5Xs",
-    authDomain: "nando-45a52.firebaseapp.com",
-    projectId: "nando-45a52",
-    storageBucket: "nando-45a52.firebasestorage.app",
-    messagingSenderId: "411245884208",
-    appId: "1:411245884208:web:83238a283bfe46a8bb0ef5"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db  = getFirestore(app);
-
-  window._db         = db;
-  window._fbReady    = true;
-  window._col        = (n) => collection(db, n);
-  window._doc        = (c, id) => doc(db, c, String(id));
-  window._setDoc     = setDoc;
-  window._addDoc     = addDoc;
-  window._getDoc     = getDoc;
-  window._getDocs    = getDocs;
-  window._updateDoc  = updateDoc;
-  window._deleteDoc  = deleteDoc;
-  window._onSnapshot = onSnapshot;
-  window._query      = query;
-  window._orderBy    = orderBy;
-  window._serverTs   = serverTimestamp;
-
+  const app = initializeApp({
+    apiKey:"AIzaSyDty_jwhFLSCSpd1ev1oslgKS6ZKe8f5Xs",
+    authDomain:"nando-45a52.firebaseapp.com",
+    projectId:"nando-45a52",
+    storageBucket:"nando-45a52.firebasestorage.app",
+    messagingSenderId:"411245884208",
+    appId:"1:411245884208:web:83238a283bfe46a8bb0ef5"
+  });
+  const db = getFirestore(app);
+  window._db=db; window._fbReady=true;
+  window._col=(n)=>collection(db,n);
+  window._doc=(c,id)=>doc(db,c,String(id));
+  window._setDoc=setDoc; window._addDoc=addDoc;
+  window._getDoc=getDoc; window._getDocs=getDocs;
+  window._updateDoc=updateDoc; window._deleteDoc=deleteDoc;
+  window._onSnapshot=onSnapshot;
+  window._query=query; window._orderBy=orderBy;
   document.dispatchEvent(new Event('firebase-ready'));
-  console.log('🔥 Firebase listo — nando-45a52');
+  console.log('🔥 Firebase listo');
 </script>
 <script>
-
-
-
-
-
-
-
-
-
-// ════════════════════════════════════════════════════════
-//  FIREBASE — helpers y sincronización
-// ════════════════════════════════════════════════════════
-
-// ── Estado de conexión ───────────────────────────────────
-let FB_CONNECTED = false;
-let FB_LOADING   = true;
-
-function fbShowStatus(ok){
-  const el = document.getElementById('fb-status');
-  if(!el) return;
-  el.textContent = ok ? '🟢 Firebase conectado' : '🔴 Sin conexión — modo local';
-  el.style.color  = ok ? 'var(--vd)' : 'var(--ro)';
-}
-
-// ── Guardar un documento (merge) ─────────────────────────
-async function fbSet(colName, id, data){
-  if(!window._fbReady) return false;
-  try{
-    await window._setDoc(window._doc(colName, id), {
-      ...data, _updatedAt: new Date().toISOString()
-    }, {merge:true});
-    return true;
-  }catch(e){ console.error('fbSet error:', e); return false; }
-}
-
-// ── Agregar documento (ID automático) ───────────────────
-async function fbAdd(colName, data){
-  if(!window._fbReady) return null;
-  try{
-    const ref = await window._addDoc(window._col(colName), {
-      ...data, _createdAt: new Date().toISOString()
-    });
-    return ref.id;
-  }catch(e){ console.error('fbAdd error:', e); return null; }
-}
-
-// ── Eliminar documento ───────────────────────────────────
-async function fbDelete(colName, id){
-  if(!window._fbReady) return false;
-  try{
-    await window._deleteDoc(window._doc(colName, id));
-    return true;
-  }catch(e){ console.error('fbDelete error:', e); return false; }
-}
-
-// ── Cargar colección completa ────────────────────────────
-async function fbGetAll(colName){
-  if(!window._fbReady) return [];
-  try{
-    const snap = await window._getDocs(window._col(colName));
-    return snap.docs.map(d => ({...d.data(), _fbId: d.id}));
-  }catch(e){ console.error('fbGetAll error:', e); return []; }
-}
-
-// ── CARGA INICIAL — traer todos los datos de Firebase ────
-async function fbLoadAll(){
-  if(!window._fbReady){ FB_LOADING=false; fbShowStatus(false); return; }
-  try{
-    fbShowStatus(false);
-    const [clientes, productos, pedidos, cobros, movimientos, rutas] = await Promise.all([
-      fbGetAll('clientes'),
-      fbGetAll('productos'),
-      fbGetAll('pedidos'),
-      fbGetAll('cobros'),
-      fbGetAll('movimientos'),
-      fbGetAll('rutas'),
-    ]);
-
-    // Solo reemplazar si Firebase tiene datos (no sobreescribir datos iniciales con vacío)
-    if(clientes.length)   { CLIENTES.length=0;    clientes.forEach(c=>CLIENTES.push(c)); }
-    if(productos.length)  { PRODUCTOS.length=0;   productos.forEach(p=>PRODUCTOS.push(p)); }
-    if(pedidos.length)    { PEDIDOS.length=0;     pedidos.forEach(p=>PEDIDOS.push(p)); }
-    if(cobros.length)     { COBROS.length=0;      cobros.forEach(c=>COBROS.push(c)); }
-    if(movimientos.length){ MOVIMIENTOS.length=0; movimientos.forEach(m=>MOVIMIENTOS.push(m)); }
-    if(rutas.length)      { RUTAS.length=0;       rutas.forEach(r=>RUTAS.push(r)); }
-
-    // Recalcular IDs máximos
-    if(pedidos.length)    pedidoNextId    = Math.max(...pedidos.map(p=>p.id||0)) + 1;
-    if(productos.length)  productoNextId  = Math.max(...productos.map(p=>p.id||0)) + 1;
-
-    FB_CONNECTED = true;
-    FB_LOADING   = false;
-    fbShowStatus(true);
-
-    console.log(`🔥 Cargado: ${clientes.length} clientes, ${productos.length} productos, ${pedidos.length} pedidos`);
-
-    // Refrescar UI
-    poblarSelects();
-    renderDashboard();
-    return true;
-  }catch(e){
-    console.error('fbLoadAll error:', e);
-    FB_LOADING = false;
-    fbShowStatus(false);
-    return false;
-  }
-}
-
-// ── SEED inicial — subir datos locales a Firebase ────────
-async function fbSeedIfEmpty(){
-  if(!window._fbReady) return;
-  try{
-    const snap = await window._getDocs(window._col('clientes'));
-    if(snap.size > 0){
-      console.log('🔥 Firebase ya tiene datos — sin seed automático');
-      return;
-    }
-    await fbForzarSeed(true); // silencioso
-  }catch(e){ console.error('Seed error:', e); }
-}
-
-async function fbForzarSeed(silencioso=false){
-  if(!window._fbReady){
-    showToast('Sin conexión a Firebase','error');
-    return;
-  }
-  if(!silencioso){
-    if(!confirm('⚠️ Esto reemplazará TODOS los datos en Firebase con los datos actuales del sistema.\n\n¿Continuar?')) return;
-  }
-
-  const btn = document.getElementById('btn-forzar-seed');
-  if(btn){ btn.disabled=true; btn.textContent='⏳ Sincronizando...'; }
-  if(!silencioso) showToast('Subiendo datos a Firebase...','');
-
-  try{
-    // Clientes
-    for(const c of CLIENTES){
-      await window._setDoc(window._doc('clientes', c.id), c);
-    }
-    // Productos
-    for(const p of PRODUCTOS){
-      await window._setDoc(window._doc('productos', p.id), p);
-    }
-    // Pedidos mock
-    for(const p of PEDIDOS){
-      await window._setDoc(window._doc('pedidos', p.id), p);
-    }
-    // Cobros mock
-    for(const c of COBROS){
-      await window._setDoc(window._doc('cobros', c.id), c);
-    }
-    // Movimientos mock
-    for(const m of MOVIMIENTOS){
-      await window._setDoc(window._doc('movimientos', m.id), m);
-    }
-
-    const msg = `✅ ${CLIENTES.length} clientes, ${PRODUCTOS.length} productos sincronizados`;
-    if(!silencioso) showToast(msg, 'success');
-    console.log('🌱 Seed completo:', msg);
-
-    if(btn){ btn.disabled=false; btn.textContent='✅ Sincronizado'; }
-    setTimeout(()=>{ if(btn) btn.textContent='🔄 Forzar Sincronización'; }, 3000);
-
-    // Actualizar status
-    const statusEl = document.getElementById('seed-status');
-    if(statusEl) statusEl.textContent = `Última sync: ${new Date().toLocaleString('es-MX')}`;
-
-  }catch(err){
-    console.error('fbForzarSeed error:', err);
-    showToast('Error al sincronizar: '+err.message,'error');
-    if(btn){ btn.disabled=false; btn.textContent='🔄 Forzar Sincronización'; }
-  }
-}
-
-window.fbInit = async function(){
-  console.log('🔥 fbInit llamado');
-  const hasData = await fbLoadAll();
-  if(!hasData || !FB_CONNECTED) return;
-  // Si Firebase está vacío, subir datos locales
-  await fbSeedIfEmpty();
-};
-
 
 
 
@@ -1788,10 +1569,10 @@ let PEDIDOS = [
 ];
 
 let RUTAS = [
-  {id:1,nombre:'Ruta Centro',repartidor:'Nando García',fecha:'2024-12-04',estatus:'Programada',clientes:[1,6],notas:'Entregar antes de mediodía',color:'dorado'},
+  {id:1,nombre:'Ruta Centro',repartidor:'Carlos Mendoza',fecha:'2024-12-04',estatus:'Programada',clientes:[1,6],notas:'Entregar antes de mediodía',color:'dorado'},
   {id:2,nombre:'Ruta Norte',repartidor:'Luis Ramírez',fecha:'2024-12-04',estatus:'En curso',clientes:[4],notas:'Cobrar $1,200 pendientes',color:'azul'},
   {id:3,nombre:'Ruta Zapopan',repartidor:'Mario Flores',fecha:'2024-12-03',estatus:'Completada',clientes:[2],notas:'Completada sin incidencias',color:'verde'},
-  {id:4,nombre:'Ruta Tlaquepaque',repartidor:'Nando García',fecha:'2024-12-05',estatus:'Programada',clientes:[3,5],notas:'Nuevo cliente: Salón Rosy',color:'naranja'},
+  {id:4,nombre:'Ruta Tlaquepaque',repartidor:'Carlos Mendoza',fecha:'2024-12-05',estatus:'Programada',clientes:[3,5],notas:'Nuevo cliente: Salón Rosy',color:'naranja'},
 ];
 
 let COBROS = [
@@ -1816,21 +1597,14 @@ let MOVIMIENTOS = [
 ];
 
 let USUARIOS = [
-  {id:1,nombre:'Nando García',user:'admin',rol:'Admin',tel:'+52 333 100 0001',activo:true},
+  {id:1,nombre:'Nando García',user:'admin',rol:'Admin',tel:'',activo:true},
 ];
 
 const PERMISOS = {
-  'Dashboard':    [true],
-  'Clientes':     [true],
-  'Nuevo Pedido': [true],
-  'Historial':    [true],
-  'Por Cobrar':   [true],
-  'Rutas':        [true],
-  'Catálogo':     [true],
-  'Reportes':     [true],
-  'Ganancias':    [true],
-  'Flujo Fin.':   [true],
-  'Config.':      [true],
+  'Dashboard':[true],'Clientes':[true],'Nuevo Pedido':[true],
+  'Historial':[true],'Por Cobrar':[true],'Rutas':[true],
+  'Catálogo':[true],'Reportes':[true],'Ganancias':[true],
+  'Flujo Fin.':[true],'Config.':[true],
 };
 
 
@@ -1908,207 +1682,154 @@ function getMargenCliente(prodId, cliId){
   return Math.round((precio - prod.costo) / precio * 100);
 }
 
-function mostrarResetSimple(){
-  const pwd = prompt('🔐 Contraseña de administrador:');
-  if(pwd === null) return; // canceló
-  if(pwd !== 'nando2025'){
-    showToast('Contraseña incorrecta','error');
-    return;
-  }
-  if(!confirm('⚠️ ¿Confirmar reset?\n\nSe eliminarán pedidos, cobros y movimientos.\nEsta acción NO se puede deshacer.')) return;
+// ════════════════════════════════════════════════════════
+//  FIREBASE
+// ════════════════════════════════════════════════════════
+let FB_CONNECTED = false;
 
-  // Borrar local
-  PEDIDOS.length = 0;
-  COBROS.length  = 0;
-  MOVIMIENTOS.length = 0;
-  pedidoNextId = 1;
-
-  // Borrar Firebase
-  if(window._fbReady){
-    (async()=>{
-      for(const col of ['pedidos','cobros','movimientos']){
-        const snap = await window._getDocs(window._col(col));
-        for(const d of snap.docs) await window._deleteDoc(d.ref);
-      }
-    })();
-  }
-
-  renderDashboard();
-  showToast('Reset completado ✓','success');
+function fbShowStatus(ok){
+  const el = document.getElementById('fb-status');
+  if(el){ el.textContent = ok ? '🟢 Firebase' : '🔴 Sin conexión';
+          el.style.color  = ok ? 'var(--vd)' : 'var(--ro)'; }
 }
 
-// ════════════════════════════════════════════════════════
-//  BACKUP AUTOMÁTICO + NOTIFICACIONES
-// ════════════════════════════════════════════════════════
+async function fbSet(col, id, data){
+  if(!window._fbReady) return false;
+  try{ await window._setDoc(window._doc(col, id), {...data, _ts: new Date().toISOString()}, {merge:true}); return true; }
+  catch(e){ console.error('fbSet',col,e.message); return false; }
+}
 
-let NOTIFICACIONES = [];
+async function fbDelete(col, id){
+  if(!window._fbReady) return;
+  try{ await window._deleteDoc(window._doc(col, id)); }
+  catch(e){ console.error('fbDelete',e.message); }
+}
 
-function checkAutoBackup(){
+async function fbGetAll(col){
+  if(!window._fbReady) return [];
+  try{ const s=await window._getDocs(window._col(col)); return s.docs.map(d=>d.data()); }
+  catch(e){ return []; }
+}
+
+// ── Seed: sube datos locales si Firebase está vacío ──────
+async function fbSeedIfEmpty(){
+  if(!window._fbReady) return;
   try{
-    const last = localStorage.getItem('last-backup');
-    const dias15 = 15*24*60*60*1000;
-    if(!last || (Date.now()-parseInt(last)) > dias15){
-      setTimeout(()=>addNotificacion('💾 Respaldo pendiente',
-        'Han pasado 15 días sin respaldo. Ve a Configuración → Respaldo.','backup',true), 3000);
-    }
+    const snap = await window._getDocs(window._col('clientes'));
+    if(snap.size > 0) return;
+    await fbForzarSeed(true);
   }catch(e){}
 }
 
-function hacerBackupYRegistrar(){
-  exportarDatos();
-  try{ localStorage.setItem('last-backup', Date.now()); }catch(e){}
-  removeNotificacionByTipo('backup');
-  showToast('Respaldo descargado ✓ — próximo en 15 días','success');
-}
-
-function addNotificacion(titulo, mensaje, tipo='info', persistente=false){
-  const id = Date.now();
-  NOTIFICACIONES.unshift({id,titulo,mensaje,tipo,persistente,fecha:new Date().toISOString(),leida:false});
-  renderNotifBadge();
-  return id;
-}
-
-function removeNotificacionByTipo(tipo){
-  NOTIFICACIONES = NOTIFICACIONES.filter(n=>n.tipo!==tipo);
-  renderNotifBadge();
-}
-
-function marcarTodasLeidas(){
-  NOTIFICACIONES.forEach(n=>n.leida=true);
-  renderNotifBadge(); renderNotifPanel();
-}
-
-function renderNotifBadge(){
-  const badge = document.getElementById('notif-badge');
-  if(!badge) return;
-  const sinLeer = NOTIFICACIONES.filter(n=>!n.leida).length;
-  badge.textContent = sinLeer||'';
-  badge.style.display = sinLeer ? 'flex' : 'none';
-}
-
-function toggleNotifPanel(){
-  const panel = document.getElementById('notif-panel');
-  if(!panel) return;
-  const visible = panel.style.display !== 'none';
-  panel.style.display = visible ? 'none' : 'block';
-  if(!visible) renderNotifPanel();
-}
-
-function renderNotifPanel(){
-  const el = document.getElementById('notif-list');
-  if(!el) return;
-  if(!NOTIFICACIONES.length){
-    el.innerHTML='<div style="padding:20px;text-align:center;color:var(--gris);font-size:13px">Sin notificaciones 🎉</div>';
-    setTimeout(()=>{NOTIFICACIONES.forEach(n=>n.leida=true);renderNotifBadge();},800);
-    return;
+async function fbForzarSeed(silencioso=false){
+  if(!window._fbReady){ showToast('Sin conexión Firebase','error'); return; }
+  if(!silencioso && !confirm(`Subir ${CLIENTES.length} clientes y ${PRODUCTOS.length} productos a Firebase?`)) return;
+  const btn = document.getElementById('btn-forzar-seed');
+  if(btn){ btn.disabled=true; btn.textContent='⏳ Sincronizando...'; }
+  try{
+    for(const c of CLIENTES) await window._setDoc(window._doc('clientes', c.id), c);
+    for(const p of PRODUCTOS) await window._setDoc(window._doc('productos', p.id), p);
+    if(!silencioso) showToast(`✅ ${CLIENTES.length} clientes sincronizados`,'success');
+    if(btn){ btn.disabled=false; btn.textContent='✅ Sincronizado';
+      setTimeout(()=>{ if(btn) btn.textContent='🔄 Forzar Sincronización'; },3000); }
+  }catch(e){
+    showToast('Error: '+e.message,'error');
+    if(btn){ btn.disabled=false; btn.textContent='🔄 Forzar Sincronización'; }
   }
-  const icos={info:'💬',backup:'💾',cobro:'💳',pedido:'📋',error:'⚠️'};
-  el.innerHTML=NOTIFICACIONES.map(n=>{
-    const bg=n.leida?'var(--cr)':'var(--cr2)';
-    const fecha=new Date(n.fecha).toLocaleDateString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-    return `<div style="padding:12px 16px;background:${bg};border-bottom:1px solid var(--cr3)">
-      <div style="display:flex;gap:10px;align-items:flex-start">
-        <span style="font-size:18px">${icos[n.tipo]||'🔔'}</span>
-        <div style="flex:1;min-width:0">
-          <div style="font-weight:700;font-size:13px;color:var(--neg)">${n.titulo}</div>
-          <div style="font-size:12px;color:var(--gris);margin-top:2px;line-height:1.5">${n.mensaje}</div>
-          <div style="font-size:10px;color:var(--gris2);margin-top:4px">${fecha}</div>
-          ${n.tipo==='backup'?`<button onclick="hacerBackupYRegistrar()"
-            style="margin-top:6px;padding:4px 10px;background:var(--ox);color:#fff;border:none;
-            border-radius:6px;font-size:11px;cursor:pointer;font-weight:700">📥 Descargar ahora</button>`:''}
-        </div>
-        <button onclick="eliminarNotif(${n.id})"
-          style="background:none;border:none;color:var(--gris2);cursor:pointer;font-size:14px;padding:2px 4px">✕</button>
-      </div>
-    </div>`;
-  }).join('');
-  setTimeout(()=>{NOTIFICACIONES.forEach(n=>n.leida=true);renderNotifBadge();},800);
 }
 
-function marcarLeida(id){
-  const n=NOTIFICACIONES.find(x=>x.id===id);
-  if(n) n.leida=true;
-  renderNotifBadge();
-}
-
-function eliminarNotif(id){
-  NOTIFICACIONES=NOTIFICACIONES.filter(n=>n.id!==id);
-  renderNotifBadge(); renderNotifPanel();
-}
-
-function checkNotificacionesSistema(){
-  const hoy=new Date().toISOString().split('T')[0];
-  const vencidos=COBROS.filter(c=>c.activo&&c.vence&&c.vence<hoy);
-  if(vencidos.length){
-    addNotificacion(
-      `💳 ${vencidos.length} cobro(s) vencido(s)`,
-      vencidos.map(c=>{const cli=CLIENTES.find(x=>x.id===c.cliId);return `${cli?cli.nombre:'Cliente'} — $${(c.monto||0).toFixed(2)}`;}).join(', '),
-      'cobro',true);
-  }
-  const hoyPeds=PEDIDOS.filter(p=>p.fecha===hoy&&p.estatus==='pendiente');
-  if(hoyPeds.length){
-    addNotificacion(`📋 ${hoyPeds.length} pedido(s) pendiente(s) hoy`,
-      'Tienes pedidos sin entregar para hoy.','pedido',false);
-  }
-  checkAutoBackup();
-}
-
-// Cerrar panel al click fuera
-document.addEventListener('click',function(e){
-  const panel=document.getElementById('notif-panel');
-  const btn=document.getElementById('btn-notif');
-  if(panel&&btn&&!panel.contains(e.target)&&!btn.contains(e.target)){
-    panel.style.display='none';
-  }
-});
-
-// ════════════════════════════════════════════════════════
-//  TIEMPO REAL — onSnapshot listeners
-// ════════════════════════════════════════════════════════
-let _unsubPedidos = null;
-let _unsubCobros  = null;
-
+// ── Tiempo real: onSnapshot ──────────────────────────────
 function fbStartRealtime(){
   if(!window._fbReady) return;
-
-  // Pedidos en tiempo real
-  _unsubPedidos = window._onSnapshot(window._col('pedidos'), snap => {
-    PEDIDOS.length = 0;
-    snap.forEach(d => PEDIDOS.push(d.data()));
-    pedidoNextId = PEDIDOS.length ? Math.max(...PEDIDOS.map(p=>p.id||0))+1 : 1;
-    // Refrescar UI si está en esa página
-    if(typeof renderDashboard === 'function') renderDashboard();
-    if(typeof renderHistorial === 'function' && document.getElementById('page-historial')?.style.display !== 'none') renderHistorial();
-    console.log('🔥 Pedidos sync:', PEDIDOS.length);
+  // Pedidos
+  window._onSnapshot(window._col('pedidos'), snap => {
+    if(snap.empty && PEDIDOS.length) return;
+    PEDIDOS.length=0; snap.forEach(d=>PEDIDOS.push(d.data()));
+    pedidoNextId = PEDIDOS.length ? Math.max(...PEDIDOS.map(p=>Number(p.id)||0))+1 : 1;
+    if(currentPage==='dashboard') renderDashboard();
+    if(currentPage==='historial') renderHistorial();
   });
-
-  // Cobros en tiempo real
-  _unsubCobros = window._onSnapshot(window._col('cobros'), snap => {
-    COBROS.length = 0;
-    snap.forEach(d => COBROS.push(d.data()));
-    if(typeof renderCobrar === 'function' && document.getElementById('page-cobrar')?.style.display !== 'none') renderCobrar();
-    console.log('🔥 Cobros sync:', COBROS.length);
+  // Cobros
+  window._onSnapshot(window._col('cobros'), snap => {
+    if(snap.empty && COBROS.length) return;
+    COBROS.length=0; snap.forEach(d=>COBROS.push(d.data()));
+    if(currentPage==='cobrar') renderCobrar();
   });
-
-  // Movimientos en tiempo real
+  // Movimientos
   window._onSnapshot(window._col('movimientos'), snap => {
-    MOVIMIENTOS.length = 0;
-    snap.forEach(d => MOVIMIENTOS.push(d.data()));
-    if(typeof renderFinanzas === 'function' && document.getElementById('page-finanzas')?.style.display !== 'none') renderFinanzas();
-    console.log('🔥 Movimientos sync:', MOVIMIENTOS.length);
+    if(snap.empty && MOVIMIENTOS.length) return;
+    MOVIMIENTOS.length=0; snap.forEach(d=>MOVIMIENTOS.push(d.data()));
+    if(currentPage==='finanzas') renderFinanzas();
   });
-
-  // Clientes en tiempo real
+  // Clientes
   window._onSnapshot(window._col('clientes'), snap => {
-    if(snap.empty) return; // no sobreescribir con vacío
-    CLIENTES.length = 0;
-    snap.forEach(d => CLIENTES.push(d.data()));
-    if(typeof renderClientes === 'function' && document.getElementById('page-clientes')?.style.display !== 'none') renderClientes();
-    console.log('🔥 Clientes sync:', CLIENTES.length);
+    if(snap.empty) return;
+    CLIENTES.length=0; snap.forEach(d=>CLIENTES.push(d.data()));
+    poblarSelects();
+    if(currentPage==='clientes') renderClientes();
   });
-
-  console.log('🔥 Listeners tiempo real activos');
+  console.log('🔥 Tiempo real activo');
 }
+
+// ── Carga inicial desde Firebase ─────────────────────────
+async function fbInit(){
+  try{
+    const [peds,cobs,movs] = await Promise.all([
+      fbGetAll('pedidos'), fbGetAll('cobros'), fbGetAll('movimientos')
+    ]);
+    if(peds.length){ PEDIDOS.length=0; peds.forEach(p=>PEDIDOS.push(p));
+      pedidoNextId=Math.max(...peds.map(p=>Number(p.id)||0))+1; }
+    if(cobs.length){ COBROS.length=0; cobs.forEach(c=>COBROS.push(c)); }
+    if(movs.length){ MOVIMIENTOS.length=0; movs.forEach(m=>MOVIMIENTOS.push(m)); }
+    FB_CONNECTED=true; fbShowStatus(true);
+    poblarSelects(); renderDashboard();
+    fbStartRealtime();
+    await fbSeedIfEmpty();
+    console.log('🔥 Firebase iniciado');
+  }catch(e){ fbShowStatus(false); console.error('fbInit',e); }
+}
+
+let NOTIFICACIONES=[];
+function addNotificacion(titulo,mensaje,tipo='info'){
+  NOTIFICACIONES.unshift({id:Date.now(),titulo,mensaje,tipo,leida:false,fecha:new Date().toISOString()});
+  renderNotifBadge();
+}
+function renderNotifBadge(){
+  const el=document.getElementById('notif-badge');
+  const n=NOTIFICACIONES.filter(x=>!x.leida).length;
+  if(el){el.textContent=n||'';el.style.display=n?'flex':'none';}
+}
+function toggleNotifPanel(){
+  const p=document.getElementById('notif-panel');
+  if(!p) return;
+  const v=p.style.display!=='none';
+  p.style.display=v?'none':'block';
+  if(!v){
+    const ico={info:'💬',backup:'💾',cobro:'💳',pedido:'📋'};
+    document.getElementById('notif-list').innerHTML=NOTIFICACIONES.length?
+      NOTIFICACIONES.map(n=>`<div style="padding:12px 16px;background:${n.leida?'var(--cr)':'var(--cr2)'};border-bottom:1px solid var(--cr3)">
+        <div style="font-weight:700;font-size:13px">${ico[n.tipo]||'🔔'} ${n.titulo}</div>
+        <div style="font-size:12px;color:var(--gris);margin-top:3px">${n.mensaje}</div>
+      </div>`).join('')
+      :'<div style="padding:20px;text-align:center;color:var(--gris)">Sin notificaciones 🎉</div>';
+    NOTIFICACIONES.forEach(x=>x.leida=true); renderNotifBadge();
+  }
+}
+function checkNotificacionesSistema(){
+  const hoy=new Date().toISOString().split('T')[0];
+  const venc=COBROS.filter(c=>c.activo&&c.vence&&c.vence<hoy);
+  if(venc.length) addNotificacion(`💳 ${venc.length} cobro(s) vencido(s)`,
+    venc.map(c=>{const cl=CLIENTES.find(x=>x.id===c.cliId);return cl?cl.nombre:'?';}).join(', '),'cobro');
+  try{
+    const last=localStorage.getItem('last-backup');
+    if(!last||(Date.now()-parseInt(last))>15*24*60*60*1000)
+      addNotificacion('💾 Respaldo pendiente','Han pasado 15 días sin respaldo.','backup');
+  }catch(e){}
+}
+document.addEventListener('click',e=>{
+  const p=document.getElementById('notif-panel'),b=document.getElementById('btn-notif');
+  if(p&&b&&!p.contains(e.target)&&!b.contains(e.target)) p.style.display='none';
+});
 
 function doLogin(){
   const u=document.getElementById('l-user').value.trim();
@@ -2132,14 +1853,14 @@ function doLogout(){
 //  INIT
 // ════════════════════════════════════════════════
 function initApp(){
-  // Sidebar
+  // Sidebar state on laptop — default OPEN
   if(window.innerWidth >= 768){
     try{
       const pinned = localStorage.getItem('sb-pinned');
       if(pinned !== 'false') document.body.classList.add('sb-pinned');
     }catch(e){ document.body.classList.add('sb-pinned'); }
   }
-  // Fecha
+  // fecha
   const d=new Date();
   const days=['dom','lun','mar','mié','jue','vie','sáb'];
   const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
@@ -2147,19 +1868,13 @@ function initApp(){
   document.getElementById('top-date').textContent=ds;
   document.getElementById('dash-fecha').textContent=ds;
 
+  // poblar selects
   poblarSelects();
   renderDashboard();
-  // Notificaciones del sistema
-  setTimeout(checkNotificacionesSistema, 1500);
-
-  // Firebase — escuchar evento de módulo listo
-  if(window._fbReady){
-    fbInit();
-  } else {
-    document.addEventListener('firebase-ready', ()=>fbInit(), {once:true});
-    // Fallback timeout
-    setTimeout(()=>{ if(!FB_CONNECTED) fbShowStatus(false); }, 5000);
-  }
+  // Firebase
+  if(window._fbReady){ fbInit(); }
+  else { document.addEventListener('firebase-ready',()=>fbInit(),{once:true}); }
+  setTimeout(checkNotificacionesSistema,2000);
 }
 
 function poblarSelects(){
@@ -2517,47 +2232,38 @@ function guardarPrecioEsp(){
   const precio=parseFloat(document.getElementById('pe-precio').value);
   if(!prodId||isNaN(precio)||precio<=0){showToast('Completa todos los campos','error');return;}
   if(!currentCli.preciosEsp) currentCli.preciosEsp=[];
-  const existing=currentCli.preciosEsp.find(pe=>pe.prodId===prodId);
-  if(existing) existing.precio=precio;
+  const idx=currentCli.preciosEsp.findIndex(p=>p.prodId===prodId);
+  if(idx>=0) currentCli.preciosEsp[idx].precio=precio;
   else currentCli.preciosEsp.push({prodId,precio});
-  fbSet('clientes', currentCli.id, currentCli);
+  closeModal('modal-precio-esp');
   renderPreciosEspeciales();
-  showToast('Precio especial guardado ✓','success');
+  showToast('Precio especial guardado','success');
 }
 
-function eliminarPrecioEsp(prodId){
+function eliminarPrecioEsp(i){
   if(!currentCli||!currentCli.preciosEsp)return;
-  currentCli.preciosEsp=currentCli.preciosEsp.filter(pe=>pe.prodId!==prodId);
-  fbSet('clientes', currentCli.id, currentCli);
+  currentCli.preciosEsp.splice(i,1);
   renderPreciosEspeciales();
-  showToast('Precio especial eliminado','success');
+  showToast('Precio eliminado');
 }
 
 function guardarCliente(){
   const nombre=document.getElementById('nc-nombre').value.trim();
   if(!nombre){showToast('Escribe el nombre','error');return;}
-  const colors=['#C0392B','#2980B9','#27AE60','#8E44AD','#D35400','#16A085','#2C3E50','#E74C3C'];
-  const c={
-    id: Date.now(),
-    nombre,
-    tel:   document.getElementById('nc-tel').value.trim(),
-    zona:  document.getElementById('nc-zona').value.trim(),
-    dir:   document.getElementById('nc-dir').value.trim(),
-    credito: parseFloat(document.getElementById('nc-credito').value)||0,
-    diasCredito: parseInt(document.getElementById('nc-dias').value)||0,
-    saldo: 0,
-    ruta: 'LUNES',
-    color: colors[Math.floor(Math.random()*colors.length)],
-    preciosEsp: [],
-  };
+  const colors=['#C0392B','#2980B9','#27AE60','#8E44AD','#D35400','#16A085'];
+  const c={id:Date.now(),nombre,
+    tel:document.getElementById('nc-tel').value.trim(),
+    zona:document.getElementById('nc-zona').value.trim(),
+    dir:document.getElementById('nc-dir').value.trim(),
+    credito:parseFloat(document.getElementById('nc-credito').value)||0,
+    diasCredito:parseInt(document.getElementById('nc-dias').value)||0,
+    saldo:0,ruta:'LUNES',preciosEsp:[],
+    color:colors[Math.floor(Math.random()*colors.length)]};
   CLIENTES.push(c);
-  // Firebase
-  fbSet('clientes', c.id, c).then(ok=>{
-    if(ok) showToast('Cliente guardado y sincronizado ✓','success');
-    else   showToast('Cliente guardado localmente (sin conexión)','success');
-  });
+  fbSet('clientes',c.id,c);
   closeModal('modal-nuevo-cliente');
   renderClientes(); poblarSelects();
+  showToast('Cliente guardado ✓','success');
   ['nc-nombre','nc-tel','nc-dir','nc-zona'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('nc-credito').value='0';
   document.getElementById('nc-dias').value='0';
@@ -2759,38 +2465,22 @@ function renderResumen(){
 
 function confirmarPedido(){
   const cliId=parseInt(document.getElementById('ped-cli').value)||0;
-  if(!cliId){showToast('Selecciona un cliente primero','error');return;}
-  if(carrito.length===0){showToast('El pedido está vacío','error');return;}
+  if(!cliId){showToast('Selecciona un cliente','error');return;}
+  if(!carrito.length){showToast('El pedido está vacío','error');return;}
   const total=carrito.reduce((a,i)=>a+getItemSubtotal(i),0);
-  const p={
-    id: pedidoNextId++,
-    cliId,
-    fecha: new Date().toISOString().split('T')[0],
-    fechaTs: new Date().toISOString(),
-    items: carrito.map(i=>({prodId:i.prodId,nombre:i.nombre,qty:i.qty,unidad:i.unidad,precio:i.precio})),
-    total: Math.round(total*100)/100,
-    estatus: 'pendiente'
-  };
+  const p={id:pedidoNextId++,cliId,
+    fecha:new Date().toISOString().split('T')[0],
+    items:carrito.map(i=>({prodId:i.prodId,nombre:i.nombre,qty:i.qty,unidad:i.unidad,precio:i.precio})),
+    total:Math.round(total*100)/100, estatus:'pendiente'};
   PEDIDOS.push(p);
-  // Firebase
-  fbSet('pedidos', p.id, p).then(ok=>{
-    if(!ok) console.warn('Pedido guardado solo localmente');
-  });
-  // Movimiento financiero automático
-  const cli=CLIENTES.find(c=>c.id===p.cliId);
-  const mov={
-    id: Date.now(),
-    tipo:'ingreso',
+  fbSet('pedidos',p.id,p);
+  // Movimiento automático
+  const cli=CLIENTES.find(c=>c.id===cliId);
+  const mov={id:Date.now(),tipo:'ingreso',
     desc:`Venta a ${cli?cli.nombre:'Cliente'} — Pedido #${p.id}`,
-    monto: p.total,
-    fecha: p.fecha
-  };
-  MOVIMIENTOS.push(mov);
-  fbSet('movimientos', mov.id, mov);
-
-  showTicket(p);
-  carrito=[];
-  renderPedido();
+    monto:p.total, fecha:p.fecha};
+  MOVIMIENTOS.push(mov); fbSet('movimientos',mov.id,mov);
+  showTicket(p); carrito=[]; renderPedido();
   showToast('Pedido #'+p.id+' confirmado ✓','success');
 }
 
@@ -2937,41 +2627,40 @@ function renderCobrar(){
 }
 function registrarAbono(cobroId){
   const monto=parseFloat(prompt('Monto del abono:'));
-  if(isNaN(monto)||monto<=0)return;
+  if(isNaN(monto)||monto<=0) return;
   const cobro=COBROS.find(c=>c.id===cobroId);
-  if(!cobro)return;
+  if(!cobro) return;
   cobro.pagado=(cobro.pagado||0)+monto;
   if(cobro.pagado>=cobro.monto){cobro.pagado=cobro.monto;cobro.activo=false;}
-  // Firebase
-  fbSet('cobros', cobro.id, cobro);
-  // Movimiento de ingreso por cobro
+  fbSet('cobros',cobro.id,cobro);
   const mov={id:Date.now(),tipo:'ingreso',desc:`Abono cobro #${cobroId}`,monto,fecha:new Date().toISOString().split('T')[0]};
-  MOVIMIENTOS.push(mov);
-  fbSet('movimientos', mov.id, mov);
-  renderCobrar();
-  showToast(`Abono de $${monto.toFixed(2)} registrado ✓`,'success');
+  MOVIMIENTOS.push(mov); fbSet('movimientos',mov.id,mov);
+  renderCobrar(); showToast(`Abono $${monto.toFixed(2)} registrado ✓`,'success');
 }
 
 function guardarCobro(){
   const cliId=parseInt(document.getElementById('cobro-cli').value);
   const tipo=document.getElementById('cobro-tipo').value;
   const monto=parseFloat(document.getElementById('cobro-monto').value);
-  const concepto=document.getElementById('cobro-concepto').value.trim();
-  if(!cliId||isNaN(monto)||monto<=0||!concepto){showToast('Completa todos los campos','error');return;}
-  const vence=document.getElementById('cobro-vence')?.value||'';
+  const concepto=document.getElementById('cobro-concepto').value;
+  if(!cliId||isNaN(monto)||monto<=0){showToast('Completa todos los campos','error');return;}
   const cobro={
-    id: Date.now(),
-    cliId, tipo, monto, concepto, vence,
-    pagado:0, activo:true,
-    fecha: new Date().toISOString().split('T')[0]
+    id:COBROS.length+1,cliId,tipo,monto,concepto,
+    fecha:new Date().toISOString().split('T')[0],
+    vence:document.getElementById('cobro-vence').value,
+    pagado:tipo==='abono'?monto:0,
+    activo:tipo!=='abono',
   };
   COBROS.push(cobro);
-  fbSet('cobros', cobro.id, cobro);
+  if(tipo==='credito'){const cli=CLIENTES.find(c=>c.id===cliId);if(cli)cli.saldo+=monto;}
   closeModal('modal-nuevo-cobro');
   renderCobrar();
-  showToast('Cobro registrado ✓','success');
+  showToast('Registro guardado ✓','success');
 }
 
+// ════════════════════════════════════════════════
+//  RUTAS
+// ════════════════════════════════════════════════
 function renderRutas(){
   filtrarRutas();
   // mapa placeholder
@@ -3047,22 +2736,20 @@ function guardarRuta(){
   if(!nombre){showToast('Escribe el nombre','error');return;}
   const colors=['dorado','verde','azul','naranja'];
   const r={
-    id: Date.now(),
+    id:RUTAS.length+1,
     nombre,
-    repartidor: document.getElementById('nr-rep')?.value||'',
-    fecha: document.getElementById('nr-fecha')?.value||new Date().toISOString().split('T')[0],
-    estatus:'Programada',
+    repartidor:document.getElementById('nr-rep').value,
+    fecha:document.getElementById('nr-fecha').value||new Date().toISOString().split('T')[0],
+    estatus:document.getElementById('nr-estatus').value,
+    notas:document.getElementById('nr-notas').value,
     clientes:[],
-    notas: document.getElementById('nr-notas')?.value||'',
-    color: colors[Math.floor(Math.random()*colors.length)]
+    color:colors[Math.floor(Math.random()*colors.length)],
   };
   RUTAS.push(r);
-  fbSet('rutas', r.id, r);
   closeModal('modal-nueva-ruta');
   renderRutas();
-  showToast('Ruta guardada ✓','success');
+  showToast('Ruta creada ✓','success');
 }
-
 function activarMapa(){
   const key=document.getElementById('maps-key-input').value.trim();
   if(!key){showToast('Escribe una API Key','error');return;}
@@ -3101,22 +2788,22 @@ function guardarProducto(){
   const nombre=document.getElementById('ap-nombre').value.trim();
   if(!nombre){showToast('Escribe el nombre','error');return;}
   const p={
-    id: productoNextId++,
+    id:productoNextId++,
     nombre,
-    costo: parseFloat(document.getElementById('ap-costo').value)||0,
-    precio: parseFloat(document.getElementById('ap-precio').value)||0,
-    unidad: document.getElementById('ap-unidad').value||'pieza',
-    cat: document.getElementById('ap-cat').value||'Otro',
-    mitad: false,
-    notas: document.getElementById('ap-notas')?.value||''
+    costo:parseFloat(document.getElementById('ap-costo').value)||0,
+    precio:parseFloat(document.getElementById('ap-precio').value)||0,
+    unidad:document.getElementById('ap-unidad').value,
+    cat:document.getElementById('ap-cat').value,
   };
   PRODUCTOS.push(p);
-  fbSet('productos', p.id, p);
   closeModal('modal-add-prod');
-  filtrarCatalogo(); poblarSelects();
+  filtrarCatalogo();
+  poblarSelects();
   showToast('Producto guardado ✓','success');
+  document.getElementById('ap-nombre').value='';
+  document.getElementById('ap-costo').value='';
+  document.getElementById('ap-precio').value='';
 }
-
 function abrirEditarProd(prodId){
   const p=PRODUCTOS.find(x=>x.id===prodId);
   if(!p)return;
@@ -3138,14 +2825,17 @@ function editarProducto(){
   poblarSelects();
   showToast('Producto actualizado ✓','success');
 }
-function eliminarProd(id){
-  if(!confirm('¿Eliminar este producto?'))return;
-  const idx=PRODUCTOS.findIndex(p=>p.id===id);
-  if(idx>-1){ PRODUCTOS.splice(idx,1); fbDelete('productos', id); }
-  filtrarCatalogo(); poblarSelects();
-  showToast('Producto eliminado','success');
+function eliminarProd(prodId){
+  if(!confirm('¿Eliminar producto?'))return;
+  const i=PRODUCTOS.findIndex(p=>p.id===prodId);
+  if(i>=0) PRODUCTOS.splice(i,1);
+  filtrarCatalogo();
+  showToast('Producto eliminado');
 }
 
+// ════════════════════════════════════════════════
+//  CHECKLIST
+// ════════════════════════════════════════════════
 function renderChecklist(){
   document.getElementById('chk-resumen').innerHTML=
     `${PRODUCTOS.length} producto(s) en catálogo`;
@@ -3210,107 +2900,7 @@ function enviarChecklistWA(){
   window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
 }
 
-function descargarChecklistPDF(){
-  const items = PRODUCTOS.filter(p => {
-    const chk = document.getElementById('chk-'+p.id);
-    return chk && chk.checked;
-  });
-  const todos = items.length === 0; // si no hay selección, incluir todos
-  const lista = todos ? PRODUCTOS : items;
-
-  if(lista.length === 0){ showToast('No hay productos para descargar','error'); return; }
-
-  const fecha = new Date().toLocaleDateString('es-MX', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
-
-  // Agrupar por categoría
-  const grupos = {};
-  lista.forEach(p => {
-    const qty  = document.getElementById('chk-qty-'+p.id)?.value  || '1';
-    const unit = document.getElementById('chk-unit-'+p.id)?.value || p.unidad;
-    if(!grupos[p.cat]) grupos[p.cat] = [];
-    grupos[p.cat].push({...p, _qty: qty, _unit: unit});
-  });
-
-  // Generar HTML del PDF
-  const rows = Object.entries(grupos).map(([cat, prods]) =>
-    `<tr class="cat-row"><td colspan="4" class="cat-hdr">📦 ${cat}</td></tr>` +
-    prods.map((p,i) =>
-      `<tr class="${i%2===0?'r-even':'r-odd'}">
-        <td class="num">${i+1}</td>
-        <td class="nombre">${p.nombre}</td>
-        <td class="qty"><input type="text" value="${p._qty}" class="qty-box" readonly/></td>
-        <td class="unit">${getUnidadLabel(p._unit)}</td>
-      </tr>`
-    ).join('')
-  ).join('');
-
-  const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>
-  <title>Pedido a Proveedor — Don Emilio</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:Arial,sans-serif;font-size:12px;color:#111;background:#fff;padding:20px 24px}
-    .header{display:flex;justify-content:space-between;align-items:flex-start;
-      border-bottom:3px solid #1F3A5F;padding-bottom:12px;margin-bottom:16px}
-    .logo-txt{font-size:22px;font-weight:800;color:#1F3A5F;letter-spacing:-0.5px}
-    .sub{font-size:11px;color:#888;margin-top:2px}
-    .fecha{font-size:11px;color:#555;text-align:right}
-    .title{font-size:14px;font-weight:700;color:#1F3A5F;margin-bottom:12px}
-    table{width:100%;border-collapse:collapse}
-    th{background:#1F3A5F;color:#fff;padding:8px 10px;text-align:left;font-size:11px;font-weight:700}
-    .cat-hdr{background:#C49A45;color:#fff;padding:6px 10px;font-weight:700;font-size:11px;letter-spacing:.3px}
-    .r-even td{background:#EEF3FB;padding:7px 10px}
-    .r-odd td{background:#fff;padding:7px 10px}
-    td{border-bottom:1px solid #e8e0d8;vertical-align:middle}
-    .num{width:32px;color:#888;font-size:10px;text-align:center}
-    .nombre{font-weight:600;font-size:12px}
-    .qty{width:70px;text-align:center}
-    .qty-box{width:56px;border:1.5px solid #1F3A5F;border-radius:4px;padding:3px 6px;
-      text-align:center;font-size:12px;font-weight:700;color:#1F3A5F}
-    .unit{width:70px;color:#555;font-size:11px}
-    .footer{margin-top:20px;padding-top:10px;border-top:1px solid #ddd;
-      display:flex;justify-content:space-between;font-size:10px;color:#999}
-    .firma{margin-top:40px;display:flex;gap:60px}
-    .firma-line{flex:1;text-align:center}
-    .firma-line hr{border:none;border-top:1px solid #333;margin-bottom:4px}
-    .firma-line span{font-size:10px;color:#555}
-    @media print{body{padding:0} .qty-box{border-color:#333}}
-  </style></head><body>
-  <div class="header">
-    <div>
-      <div class="logo-txt">🥩 Don Emilio</div>
-      <div class="sub">Distribuidora de Embutidos · Lácteos · Carnes</div>
-    </div>
-    <div class="fecha">
-      <strong>Pedido a Proveedor</strong><br>${fecha}<br>
-      <span style="font-size:10px;color:#aaa">Total: ${lista.length} productos</span>
-    </div>
-  </div>
-  <div class="title">Lista de Resurtido</div>
-  <table>
-    <thead><tr><th>#</th><th>Producto</th><th>Cantidad</th><th>Unidad</th></tr></thead>
-    <tbody>${rows}</tbody>
-  </table>
-  <div class="firma">
-    <div class="firma-line"><hr><span>Solicitado por</span></div>
-    <div class="firma-line"><hr><span>Recibido por</span></div>
-    <div class="firma-line"><hr><span>Fecha de entrega</span></div>
-  </div>
-  <div class="footer">
-    <span>Don Emilio — Sistema de Distribución</span>
-    <span>Generado el ${new Date().toLocaleString('es-MX')}</span>
-  </div>
-  </body></html>`;
-
-  // Descargar como HTML abriendo en nueva pestaña con auto-print
-  const blob = new Blob([html], {type:'text/html'});
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = `pedido-proveedor-${new Date().toISOString().split('T')[0]}.html`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('PDF listo para descargar ✓','success');
-}
+function imprimirChecklist(){ window.print(); }
 
 // ════════════════════════════════════════════════
 //  REPORTES
@@ -3671,83 +3261,49 @@ function agregarMovimiento(){
   const tipo=document.getElementById('fin-tipo').value;
   const desc=document.getElementById('fin-desc').value.trim();
   const monto=parseFloat(document.getElementById('fin-monto').value);
-  if(!desc||isNaN(monto)||monto<=0){showToast('Completa todos los campos','error');return;}
-  const mov={
-    id: Date.now(),
-    tipo, desc, monto,
-    fecha: document.getElementById('fin-fecha')?.value||new Date().toISOString().split('T')[0]
-  };
-  MOVIMIENTOS.push(mov);
-  fbSet('movimientos', mov.id, mov);
+  if(!desc||isNaN(monto)||monto<=0){showToast('Completa los campos','error');return;}
+  const mov={id:Date.now(),tipo,desc,monto,
+    fecha:document.getElementById('fin-fecha')?.value||new Date().toISOString().split('T')[0]};
+  MOVIMIENTOS.push(mov); fbSet('movimientos',mov.id,mov);
   document.getElementById('fin-desc').value='';
   document.getElementById('fin-monto').value='';
-  renderFinanzas();
-  showToast('Movimiento registrado ✓','success');
+  renderFinanzas(); showToast('Movimiento registrado ✓','success');
 }
 
 function exportarDatos(){
-  const ts = new Date().toISOString().split('T')[0];
-  const data=JSON.stringify({
-    exportDate: ts,
-    CLIENTES, PRODUCTOS, PEDIDOS, RUTAS, COBROS, MOVIMIENTOS, USUARIOS
-  }, null, 2);
-  const blob=new Blob([data],{type:'application/json'});
+  const ts=new Date().toISOString().split('T')[0];
+  const data=JSON.stringify({exportDate:ts,CLIENTES,PRODUCTOS,PEDIDOS,RUTAS,COBROS,MOVIMIENTOS},null,2);
   const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=`don-emilio-backup-${ts}.json`;
-  a.click();
+  a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));
+  a.download=`don-emilio-backup-${ts}.json`; a.click();
+  try{localStorage.setItem('last-backup',Date.now());}catch(e){}
   showToast('Backup descargado ✓','success');
 }
-
-
 function exportarCSV(){
-  const headers = ['ID','Nombre','Dueño','Teléfono','Dirección','Zona','Ruta','Crédito','Notas'];
-  const rows = CLIENTES.map(c => [
-    c.id, c.nombre, c.dueno||'', c.tel||'', c.dir||'', c.zona||'', c.ruta||'', c.credito>0?'Si':'No', c.notas||''
-  ].map(v => `"${String(v).replace(/"/g,'""')}"`).join(','));
-  const csv = [headers.join(','), ...rows].join('\n');
-  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `don-emilio-clientes-${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
-  showToast('CSV de clientes descargado ✓','success');
-}
-
-function exportarDatos(){
-  const ts = new Date().toISOString().split('T')[0];
-  const data=JSON.stringify({
-    exportDate: ts,
-    CLIENTES, PRODUCTOS, PEDIDOS, RUTAS, COBROS, MOVIMIENTOS, USUARIOS
-  }, null, 2);
-  const blob=new Blob([data],{type:'application/json'});
+  const h=['ID','Nombre','Dueño','Tel','Dir','Zona','Ruta','Crédito'];
+  const rows=CLIENTES.map(c=>[c.id,c.nombre,c.dueno||'',c.tel||'',c.dir||'',c.zona||'',c.ruta||'',c.credito>0?'Si':'No']
+    .map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','));
   const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=`don-emilio-backup-${ts}.json`;
-  a.click();
-  showToast('Backup descargado ✓','success');
+  a.href=URL.createObjectURL(new Blob(['\uFEFF'+[h.join(','),...rows].join('\n')],{type:'text/csv;charset=utf-8'}));
+  a.download=`clientes-${new Date().toISOString().split('T')[0]}.csv`; a.click();
+  showToast('CSV descargado ✓','success');
 }
-
-
-function exportarCSV(){
-  const headers = ['ID','Nombre','Dueño','Teléfono','Dirección','Zona','Ruta','Crédito','Notas'];
-  const rows = CLIENTES.map(c => [
-    c.id, c.nombre, c.dueno||'', c.tel||'', c.dir||'', c.zona||'', c.ruta||'', c.credito>0?'Si':'No', c.notas||''
-  ].map(v => `"${String(v).replace(/"/g,'""')}"`).join(','));
-  const csv = [headers.join(','), ...rows].join('\n');
-  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `don-emilio-clientes-${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
-  showToast('CSV de clientes descargado ✓','success');
+function mostrarResetSimple(){
+  const pwd=prompt('🔐 Contraseña:');
+  if(pwd===null) return;
+  if(pwd!=='nando2025'){showToast('Contraseña incorrecta','error');return;}
+  if(!confirm('⚠️ Borrar pedidos, cobros y movimientos?\nEsta acción NO se puede deshacer.')) return;
+  PEDIDOS.length=0; COBROS.length=0; MOVIMIENTOS.length=0; pedidoNextId=1;
+  if(window._fbReady){
+    (async()=>{
+      for(const col of ['pedidos','cobros','movimientos']){
+        const snap=await window._getDocs(window._col(col));
+        for(const d of snap.docs) await window._deleteDoc(d.ref);
+      }
+    })();
+  }
+  renderDashboard(); showToast('Reset completado ✓','success');
 }
-
-
-
-
-
-
 
 
 </script>
