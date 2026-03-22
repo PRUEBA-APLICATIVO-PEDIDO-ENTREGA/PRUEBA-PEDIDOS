@@ -737,15 +737,7 @@ tbody tr:hover td{background:var(--cr)}
     <div class="top-logo">🥩</div>
     <span class="top-title" id="top-title">Dashboard</span>
     <span id="fb-status" style="font-size:10px;font-weight:700;margin-right:10px"></span><span class="top-date" id="top-date"></span>
-    <div style="position:relative;display:inline-block">
-  <button class="top-bell" id="btn-notif" onclick="toggleNotifPanel()" title="Notificaciones" style="position:relative">🔔
-    <span id="notif-badge" style="position:absolute;top:-3px;right:-3px;background:var(--ro);color:#fff;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;pointer-events:none"></span>
-  </button>
-  <div id="notif-panel" style="display:none;position:absolute;top:calc(100% + 8px);right:0;width:300px;background:var(--bl);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--cr3);z-index:9999;overflow:hidden;max-height:400px;overflow-y:auto">
-    <div style="padding:12px 16px;border-bottom:1px solid var(--cr3);font-weight:800;font-size:13px;sticky;top:0;background:var(--bl)">🔔 Notificaciones</div>
-    <div id="notif-list"></div>
-  </div>
-</div>
+    <div style="position:relative;display:inline-block"><button class="top-bell" id="btn-notif" onclick="toggleNotifPanel()" style="position:relative">🔔<span id="notif-badge" style="position:absolute;top:-3px;right:-3px;background:var(--ro);color:#fff;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;pointer-events:none"></span></button><div id="notif-panel" style="display:none;position:absolute;top:calc(100% + 8px);right:0;width:300px;background:var(--bl);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--cr3);z-index:9999;overflow:hidden;max-height:400px;overflow-y:auto"><div style="padding:12px 16px;border-bottom:1px solid var(--cr3);font-weight:800;font-size:13px">🔔 Notificaciones</div><div id="notif-list"></div></div></div>
   </div>
 
   <!-- OVERLAY -->
@@ -1229,7 +1221,7 @@ tbody tr:hover td{background:var(--cr)}
         </div>
         <div style="background:var(--cr2);border-radius:12px;padding:14px">
           <div style="font-size:12px;font-weight:700;color:var(--ox);margin-bottom:4px">🔄 Sincronizar con Firebase</div>
-          <div style="font-size:11px;color:var(--gris);margin-bottom:10px">Sube todos los clientes y productos al servidor. Úsalo si ves datos incompletos.</div>
+          <div style="font-size:11px;color:var(--gris);margin-bottom:10px">Sube todos los clientes y productos al servidor.</div>
           <button id="btn-forzar-seed" onclick="fbSyncAll(false)"
             style="padding:9px 18px;background:var(--ox);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">
             🔄 Forzar Sincronización
@@ -1418,12 +1410,46 @@ tbody tr:hover td{background:var(--cr)}
 
 <!-- Ticket -->
 <div class="mover" id="modal-ticket">
-  <div class="mbox">
-    <div class="mhd"><h3>🧾 Ticket de Venta</h3><button class="btn-x" onclick="closeModal('modal-ticket')">✕</button></div>
-    <div class="mbd" id="ticket-body" style="font-family:monospace;font-size:13px"></div>
-    <div class="mft">
-      <button class="btn btn-s" onclick="closeModal('modal-ticket')">Cerrar</button>
-      <button class="btn btn-p" onclick="window.print()">🖨 Imprimir</button>
+  <div class="mbox" style="max-width:400px">
+    <div class="mhd">
+      <h3>🧾 Comprobante</h3>
+      <button class="btn-x" onclick="closeModal('modal-ticket')">✕</button>
+    </div>
+    <div class="mbd" style="padding:0;background:#f0f0f0">
+      <div id="ticket-visual" style="background:#fff;font-family:Arial,sans-serif">
+        <div style="background:linear-gradient(135deg,#1F3A5F,#2E4F7A);padding:20px 24px 16px;color:#fff;text-align:center">
+          <div style="font-size:28px;margin-bottom:4px">🥩</div>
+          <div style="font-size:20px;font-weight:800;letter-spacing:1px">DON EMILIO</div>
+          <div style="font-size:10px;opacity:.75;letter-spacing:2px;margin-top:2px">DISTRIBUIDORA DE EMBUTIDOS</div>
+        </div>
+        <div style="padding:14px 20px;border-bottom:1px dashed #ddd">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:#666;margin-bottom:6px">
+            <span id="tk-num" style="font-weight:700;color:#1F3A5F"></span>
+            <span id="tk-fecha"></span>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:#111" id="tk-cliente"></div>
+          <div style="font-size:11px;color:#888;margin-top:2px" id="tk-ruta"></div>
+        </div>
+        <div id="tk-items" style="padding:12px 20px;border-bottom:1px dashed #ddd;min-height:60px"></div>
+        <div style="padding:14px 20px;background:#f8f6f3">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px">Total a pagar</div>
+              <div id="tk-total-val" style="font-size:26px;font-weight:800;color:#1F3A5F"></div>
+            </div>
+            <div style="font-size:11px;color:#bbb">¡Gracias por su compra!</div>
+          </div>
+        </div>
+        <div style="padding:10px 20px;text-align:center;background:#1F3A5F">
+          <div style="font-size:10px;color:rgba(255,255,255,.6)">Don Emilio · Guadalajara, Jalisco</div>
+        </div>
+      </div>
+    </div>
+    <div class="mft" style="gap:8px;flex-wrap:wrap">
+      <button class="btn btn-s" onclick="closeModal('modal-ticket')" style="flex:1">Cerrar</button>
+      <button class="btn btn-ok" onclick="descargarTicketImg()" style="flex:1">📥 Descargar</button>
+      <button class="btn btn-p" onclick="imprimirTicket()" style="flex:1">🖨 Imprimir</button>
+      <button class="btn" style="flex:1;background:#25D366;color:#fff;border:none;border-radius:var(--r2);cursor:pointer;font-weight:700" onclick="enviarTicketWA()">📱 WhatsApp</button>
     </div>
   </div>
 </div>
@@ -1450,14 +1476,15 @@ tbody tr:hover td{background:var(--cr)}
     </div>
   </div>
 </div>
+<!-- html2canvas para generar imagen del ticket -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-<!-- Firebase SDK (módulo ES) -->
+<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, doc, setDoc, addDoc, getDoc, getDocs,
            updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp
          } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
   const app = initializeApp({
     apiKey:           "AIzaSyDty_jwhFLSCSpd1ev1oslgKS6ZKe8f5Xs",
     authDomain:       "nando-45a52.firebaseapp.com",
@@ -1467,28 +1494,20 @@ tbody tr:hover td{background:var(--cr)}
     appId:            "1:411245884208:web:83238a283bfe46a8bb0ef5"
   });
   const db = getFirestore(app);
-
-  // Exponer al scope global para que el script principal los use
-  window._db        = db;
-  window._fbReady   = true;
-  window._col       = (n)      => collection(db, n);
-  window._doc       = (c, id)  => doc(db, c, String(id));
-  window._setDoc    = setDoc;
-  window._addDoc    = addDoc;
-  window._getDoc    = getDoc;
-  window._getDocs   = getDocs;
-  window._updateDoc = updateDoc;
-  window._deleteDoc = deleteDoc;
-  window._onSnapshot= onSnapshot;
-  window._query     = query;
-  window._orderBy   = orderBy;
-
-  // Avisar al script principal que Firebase está listo
+  window._db=db; window._fbReady=true;
+  window._col=(n)=>collection(db,n);
+  window._doc=(c,id)=>doc(db,c,String(id));
+  window._setDoc=setDoc; window._addDoc=addDoc;
+  window._getDoc=getDoc; window._getDocs=getDocs;
+  window._updateDoc=updateDoc; window._deleteDoc=deleteDoc;
+  window._onSnapshot=onSnapshot;
+  window._query=query; window._orderBy=orderBy;
   document.dispatchEvent(new Event('firebase-ready'));
-  console.log('🔥 Firebase SDK listo — proyecto: nando-45a52');
+  console.log('🔥 Firebase listo — nando-45a52');
 </script>
 
 <script>
+
 
 
 
@@ -2557,43 +2576,122 @@ function confirmarPedido(){
   MOVIMIENTOS.push(mov); fbSet('movimientos', mov.id, mov);
   showTicket(p); carrito=[]; renderPedido();
   showToast('Pedido #'+p.id+' confirmado ✓','success');
+  // Enviar WA automático si el cliente tiene teléfono
+  const _autoCli = CLIENTES.find(c=>c.id===cliId);
+  if(_autoCli && _autoCli.tel){
+    setTimeout(()=>enviarTicketWA(), 1200);
+  }
 }
 
+// Pedido actual en ticket (para WA/imprimir)
+let _ticketPedido = null;
+
 function showTicket(p){
-  const cli=CLIENTES.find(c=>c.id===p.cliId);
-  const total=p.items.reduce((a,i)=>a+getItemSubtotal(i),0);
-  document.getElementById('ticket-body').innerHTML=`
-    <div style="text-align:center;padding-bottom:10px;border-bottom:1px dashed #ccc">
-      <div style="font-size:20px">🍯</div>
-      <div style="font-weight:800;font-size:15px">Demo Nando</div>
-      <div style="font-size:12px;color:#666">Ticket #${p.id} · ${p.fecha}</div>
-    </div>
-    <div style="padding:10px 0 6px;font-size:13px">
-      Cliente: <strong>${cli?cli.nombre:'—'}</strong>
-    </div>
-    <div style="border-top:1px dashed #ccc;padding-top:8px">
-      ${p.items.map(i=>{
-        const prod=PRODUCTOS.find(x=>x.id===i.prodId);
-        return `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px">
-          <span>${prod?prod.nombre:'?'} · ${i.qty} ${getUnidadLabel(i.unidad||'pieza')}</span>
-          <span>$${getItemSubtotal(i).toFixed(2)}</span>
-        </div>`;
-      }).join('')}
-    </div>
-    <div style="border-top:2px solid #111;margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;font-weight:800;font-size:15px">
-      <span>TOTAL</span><span>$${total.toFixed(2)}</span>
+  _ticketPedido = p;
+  const cli   = CLIENTES.find(c=>c.id===p.cliId);
+  const total = p.items.reduce((a,i)=>a+getItemSubtotal(i),0);
+  const fecha = new Date(p.fecha+'T12:00:00').toLocaleDateString('es-MX',{day:'2-digit',month:'long',year:'numeric'});
+
+  // Llenar ticket visual
+  document.getElementById('tk-num').textContent    = 'Pedido #'+p.id;
+  document.getElementById('tk-fecha').textContent  = fecha;
+  document.getElementById('tk-cliente').textContent = cli ? cli.nombre : '—';
+  document.getElementById('tk-ruta').textContent   = cli ? (cli.ruta||'') : '';
+  document.getElementById('tk-total-val').textContent = '$'+total.toFixed(2);
+
+  // Items
+  document.getElementById('tk-items').innerHTML = p.items.map(i=>{
+    const sub = getItemSubtotal(i);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #f5f5f5;font-size:13px">
+      <div>
+        <div style="font-weight:600;color:#111">${i.nombre}</div>
+        <div style="font-size:11px;color:#888">${i.qty} ${getUnidadLabel(i.unidad||'pieza')} × $${i.precio.toFixed(2)}</div>
+      </div>
+      <div style="font-weight:700;color:#1F3A5F">$${sub.toFixed(2)}</div>
     </div>`;
+  }).join('');
+
   openModal('modal-ticket');
 }
 
-function enviarWA(){
-  const cliId=parseInt(document.getElementById('ped-cli').value);
-  const cli=CLIENTES.find(c=>c.id===cliId);
-  if(!cli){showToast('Selecciona un cliente','error');return;}
-  const total=carrito.reduce((a,i)=>a+getItemSubtotal(i),0);
-  const lineas=carrito.map(i=>`• ${i.nombre} x${i.qty} = $${(getItemSubtotal(i)).toLocaleString()}`).join('\n');
-  const msg=`Hola ${cli.nombre}! Aquí tu pedido Demo Nando:\n${lineas}\n\n*Total: $${total.toLocaleString()} MXN*\n¡Gracias por tu compra! 🙏`;
-  window.open(`https://wa.me/${cli.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`,'_blank');
+// Genera canvas del ticket
+async function generarCanvasTicket(){
+  const el = document.getElementById('ticket-visual');
+  return await html2canvas(el, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: '#ffffff',
+    logging: false
+  });
+}
+
+// Descargar ticket como imagen PNG
+async function descargarTicketImg(){
+  showToast('Generando imagen...','');
+  try{
+    const canvas = await generarCanvasTicket();
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = 'ticket-pedido-'+(_ticketPedido?_ticketPedido.id:'donEmilio')+'.png';
+    a.click();
+    showToast('Imagen descargada ✓','success');
+  }catch(e){ showToast('Error al generar imagen','error'); console.error(e); }
+}
+
+// Imprimir ticket (misma imagen)
+async function imprimirTicket(){
+  try{
+    const canvas = await generarCanvasTicket();
+    const dataUrl = canvas.toDataURL('image/png');
+    const w = window.open('','_blank','width=420,height=700');
+    w.document.write(`<!DOCTYPE html><html><head><title>Ticket Don Emilio</title>
+      <style>*{margin:0;padding:0}body{background:#fff}img{width:100%;display:block}</style></head>
+      <body><img src="${dataUrl}" onload="window.print();window.close()"/></body></html>`);
+    w.document.close();
+  }catch(e){ showToast('Error al imprimir','error'); console.error(e); }
+}
+
+// Enviar ticket por WhatsApp (imagen + texto)
+async function enviarTicketWA(){
+  const p   = _ticketPedido;
+  const cli = p ? CLIENTES.find(c=>c.id===p.cliId) : null;
+  if(!cli){ showToast('Sin datos de cliente','error'); return; }
+
+  const total = p.items.reduce((a,i)=>a+getItemSubtotal(i),0);
+
+  // 1. Descargar imagen del ticket
+  try{
+    const canvas = await generarCanvasTicket();
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = 'ticket-'+p.id+'.png';
+    a.click();
+  }catch(e){ console.warn('No se pudo generar imagen:', e); }
+
+  // 2. Abrir WhatsApp con mensaje de texto
+  const tel = (cli.tel||'').replace(/\D/g,'');
+  const lineas = p.items.map(i=>
+    `• ${i.nombre} — ${i.qty} ${getUnidadLabel(i.unidad||'pieza')} = $${getItemSubtotal(i).toFixed(2)}`
+  ).join('\n');
+
+  const msg =
+    `🥩 *Don Emilio — Comprobante de Pedido*\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `📋 Pedido #${p.id}\n` +
+    `📅 ${p.fecha}\n` +
+    `👤 ${cli.nombre}\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `${lineas}\n` +
+    `━━━━━━━━━━━━━━━━━━━━\n` +
+    `💰 *TOTAL: $${total.toFixed(2)} MXN*\n\n` +
+    `_(Se adjunta imagen del ticket)_\n` +
+    `¡Gracias por su compra! 🙏`;
+
+  setTimeout(()=>{
+    window.open(`https://wa.me/${tel?'52'+tel:''}?text=${encodeURIComponent(msg)}`,'_blank');
+  }, 800); // pequeño delay para que descargue la imagen primero
+
+  showToast('Abriendo WhatsApp...','success');
 }
 
 // ════════════════════════════════════════════════
@@ -3369,6 +3467,7 @@ function resetDB(){
     initApp();
   }
 })();
+
 
 </script>
 </body>
