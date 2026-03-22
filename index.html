@@ -814,6 +814,13 @@ tbody tr:hover td{background:var(--cr)}
       <div class="detail-top">
         <button class="btn btn-s btn-sm" onclick="cerrarDetalle('detail-cliente')">← Volver</button>
         <h3 id="det-cli-nombre">Cliente</h3>
+        <button onclick="pedirEliminarCliente()"
+          style="margin-left:auto;padding:7px 14px;background:none;border:1.5px solid var(--ro);
+          color:var(--ro);border-radius:var(--r2);font-size:12px;font-weight:700;cursor:pointer;
+          display:flex;align-items:center;gap:5px;transition:.15s"
+          onmouseover="this.style.background='#fce8e8'" onmouseout="this.style.background='none'">
+          🗑 Eliminar
+        </button>
       </div>
       <div class="detail-body">
         <div class="tabs">
@@ -1516,7 +1523,30 @@ tbody tr:hover td{background:var(--cr)}
           font-size:12px;color:#1a6b42;line-height:1.7;white-space:pre-wrap;
           border-left:3px solid #27AE60;font-family:inherit"></div>
         <div style="margin-top:8px;display:flex;align-items:center;gap:6px">
-<!-- html2canvas para imagen del ticket -->
+          <label class="tog" style="flex-shrink:0">
+            <input type="checkbox" id="est-enviar-wa" checked>
+            <span class="tog-sl"></span>
+          </label>
+          <span style="font-size:12px;color:var(--gris)">Enviar mensaje al confirmar</span>
+        </div>
+      </div>
+    </div>
+    <div class="mft" style="flex-direction:column;gap:8px">
+      <div style="display:flex;gap:8px;width:100%">
+        <button class="btn btn-s" onclick="closeModal('modal-estatus')" style="flex:1">Cancelar</button>
+        <button class="btn btn-p" onclick="aplicarEstatus(false)" style="flex:2">💾 Guardar</button>
+      </div>
+      <button class="btn" onclick="aplicarEstatus(true)"
+        style="width:100%;padding:12px;background:#25D366;color:#fff;border:none;
+        border-radius:var(--r2);font-weight:800;font-size:13px;cursor:pointer;
+        display:flex;align-items:center;justify-content:center;gap:8px">
+        📱 Guardar y enviar WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- html2canvas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <!-- Firebase SDK -->
@@ -1526,14 +1556,14 @@ tbody tr:hover td{background:var(--cr)}
            updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp
          } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   const app = initializeApp({
-    apiKey:           "AIzaSyDty_jwhFLSCSpd1ev1oslgKS6ZKe8f5Xs",
-    authDomain:       "nando-45a52.firebaseapp.com",
-    projectId:        "nando-45a52",
-    storageBucket:    "nando-45a52.firebasestorage.app",
+    apiKey:"AIzaSyDty_jwhFLSCSpd1ev1oslgKS6ZKe8f5Xs",
+    authDomain:"nando-45a52.firebaseapp.com",
+    projectId:"nando-45a52",
+    storageBucket:"nando-45a52.firebasestorage.app",
     messagingSenderId:"411245884208",
-    appId:            "1:411245884208:web:83238a283bfe46a8bb0ef5"
+    appId:"1:411245884208:web:83238a283bfe46a8bb0ef5"
   });
-  const db = getFirestore(app);
+  const db=getFirestore(app);
   window._db=db; window._fbReady=true;
   window._col=(n)=>collection(db,n);
   window._doc=(c,id)=>doc(db,c,String(id));
@@ -1547,13 +1577,6 @@ tbody tr:hover td{background:var(--cr)}
 </script>
 
 <script>
-
-
-
-
-
-
-
 // ════════════════════════════════════════════════
 //  DATOS MOCK
 // ════════════════════════════════════════════════
@@ -1950,14 +1973,6 @@ function mostrarResetSimple(){
   renderDashboard();
   showToast('Reset completado ✓','success');
 }
-function exportarDatos(){
-  const ts=new Date().toISOString().split('T')[0];
-  const blob=new Blob([JSON.stringify({ts,CLIENTES,PRODUCTOS,PEDIDOS,COBROS,MOVIMIENTOS},null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download='don-emilio-backup-'+ts+'.json'; a.click();
-  try{localStorage.setItem('last-backup',Date.now());}catch(e){}
-  showToast('Backup descargado ✓','success');
-}
 function exportarCSV(){
   const h=['ID','Nombre','Tel','Dir','Zona','Ruta','Credito'];
   const r=CLIENTES.map(c=>[c.id,c.nombre,c.tel||'',c.dir||'',c.zona||'',c.ruta||'',c.credito>0?'Si':'No']
@@ -2056,6 +2071,37 @@ function mostrarListaClientes(){
 function ocultarListaClientes(){
   const dd = document.getElementById('ped-cli-dropdown');
   if(dd) dd.style.display='none';
+}
+
+function pedirEliminarCliente(){
+  if(!currentCli){ showToast('Sin cliente seleccionado','error'); return; }
+
+  const nombre = currentCli.nombre;
+
+  // Paso 1: confirmar intención
+  if(!confirm('¿Eliminar al cliente "'+nombre+'"?\n\nSe eliminará de la lista. Sus pedidos históricos se conservan.')) return;
+
+  // Paso 2: contraseña
+  const pwd = prompt('🔐 Ingresa la contraseña para confirmar:');
+  if(pwd === null) return;
+  if(pwd !== 'nando2025'){
+    showToast('Contraseña incorrecta','error');
+    return;
+  }
+
+  // Eliminar
+  const idx = CLIENTES.findIndex(c=>c.id===currentCli.id);
+  if(idx > -1) CLIENTES.splice(idx, 1);
+
+  // Firebase
+  fbDelete('clientes', currentCli.id);
+
+  // Cerrar detalle y refrescar
+  cerrarDetalle('detail-cliente');
+  currentCli = null;
+  filtrarClientes();
+  poblarSelects();
+  showToast('Cliente "'+nombre+'" eliminado ✓','success');
 }
 
 function doLogin(){
@@ -2926,7 +2972,7 @@ function previewEstatusMsg(){
   prev.style.display = 'block';
 }
 
-function aplicarEstatus(){
+function aplicarEstatus(forzarWA=false){
   const id  = parseInt(document.getElementById('est-id').value);
   const val = document.getElementById('est-val').value;
   const p   = PEDIDOS.find(x=>x.id===id);
@@ -2939,7 +2985,7 @@ function aplicarEstatus(){
   fbSet('pedidos', p.id, p);
 
   // Enviar WA si está activo y el estatus cambió
-  const enviarWA = document.getElementById('est-enviar-wa')?.checked;
+  const enviarWA = forzarWA || document.getElementById('est-enviar-wa')?.checked;
   const cli = CLIENTES.find(c=>c.id===p.cliId);
 
   if(enviarWA && cli && cli.tel && val !== oldEstatus){
@@ -3677,71 +3723,6 @@ function resetDB(){
 })();
 
 
-async function enviarTicketWA(){
-  const p   = _ticketPedido;
-  const cli = p ? CLIENTES.find(c=>c.id===p.cliId) : null;
-  if(!cli){ showToast('Sin datos de cliente','error'); return; }
-
-  const total = p.items.reduce((a,i)=>a+getItemSubtotal(i),0);
-  const tel   = (cli.tel||'').replace(/\D/g,'');
-
-  showToast('Generando imagen...','');
-
-  try{
-    // 1. Generar canvas del ticket
-    const canvas = await generarCanvasTicket();
-    const dataUrl = canvas.toDataURL('image/png');
-
-    // 2. Convertir a Blob para compartir
-    const resp  = await fetch(dataUrl);
-    const blob  = await resp.blob();
-    const file  = new File([blob], 'ticket-donEmilio-'+p.id+'.png', {type:'image/png'});
-
-    // 3. Intentar Web Share API (funciona en móvil)
-    if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
-      await navigator.share({
-        title: 'Ticket Don Emilio — Pedido #'+p.id,
-        text:  'Comprobante de tu pedido adjunto 🥩',
-        files: [file]
-      });
-      showToast('Ticket compartido ✓','success');
-      return;
-    }
-
-    // 4. Fallback para desktop: descargar imagen + abrir WA
-    // Descargar imagen automáticamente
-    const a = document.createElement('a');
-    a.href = dataUrl;
-    a.download = 'ticket-donEmilio-'+p.id+'.png';
-    a.click();
-
-    // Preparar mensaje WA
-    const lineas = p.items.map(i=>
-      '• '+i.nombre+' — '+i.qty+' '+getUnidadLabel(i.unidad||'pieza')+' = $'+getItemSubtotal(i).toFixed(2)
-    ).join('\n');
-
-    const msg =
-      '🥩 *Don Emilio — Pedido #'+p.id+'*\n'+
-      '━━━━━━━━━━━━━━━━━━━━\n'+
-      '📅 '+p.fecha+'\n'+
-      '👤 '+cli.nombre+'\n'+
-      '━━━━━━━━━━━━━━━━━━━━\n'+
-      lineas+'\n'+
-      '━━━━━━━━━━━━━━━━━━━━\n'+
-      '💰 *TOTAL: $'+total.toFixed(2)+' MXN*\n\n'+
-      '📎 *Se descargó la imagen del ticket en tu dispositivo.*\n'+
-      '➡️ Adjúntala en este chat para enviársela al cliente.\n\n'+
-      '¡Gracias por su compra! 🙏';
-
-    // Mostrar modal intermedio con preview antes de abrir WA
-    mostrarPreviewWA(dataUrl, tel, msg, p.id);
-
-  }catch(e){
-    console.error('enviarTicketWA:', e);
-    showToast('Error al generar imagen: '+e.message,'error');
-  }
-}
-
 // Preview modal antes de enviar WA
 function mostrarPreviewWA(imgUrl, tel, msg, pedidoId){
   // Remover modal previo si existe
@@ -3797,8 +3778,6 @@ function mostrarPreviewWA(imgUrl, tel, msg, pedidoId){
     </div>`;
   document.body.appendChild(modal);
 }
-
-
 
 </script>
 </body>
