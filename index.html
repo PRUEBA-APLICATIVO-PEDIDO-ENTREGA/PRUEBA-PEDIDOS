@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Demo Nando — Sistema Admin</title>
+<title>Fernando Zepeda — Sistema Admin</title>
 <style>
 /* ── Checklist ctrl ──────────────────── */
 .chk-ctrl{display:flex;align-items:center;gap:6px;flex-shrink:0;}
@@ -29,8 +29,8 @@
   --bl:#FFFFFF;
   --ac:#C49A45;--ac2:#D9B060;--ac3:#F0D9A0;
   --vd:#1A6B42;--vd2:#28935C;
-  --ro:#8B1A1A;--ro2:#A52020;
-  --az:#8B1A1A;
+  --ro:#C0392B;--ro2:#E74C3C;
+  --az:#1A5276;--az2:#2980B9;
   --nr:#B84A0E;
   --gris:#6B5050;--gris2:#9B7B7B;
   --sh:0 2px 14px rgba(139,26,26,.08);
@@ -786,8 +786,47 @@ tbody tr:hover td{background:var(--cr)}
 
     <!-- ─── DASHBOARD ─── -->
     <div class="page active" id="page-dashboard">
-      <div class="ph"><div class="ph-l"><h2>Dashboard</h2><p id="dash-fecha"></p></div></div>
-      <div class="card-grid c2" style="margin-bottom:14px" id="dash-kpis"></div>
+      <div class="ph" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div class="ph-l"><h2>Dashboard</h2><p id="dash-fecha"></p></div>
+      </div>
+
+      <!-- Acciones Rápidas -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
+        <button onclick="navTo('pedido');pedidoNextStep && pedidoNextStep(0);"
+          style="display:flex;align-items:center;gap:10px;padding:14px 16px;
+          background:linear-gradient(135deg,var(--ox2),var(--ox3));color:var(--bl);
+          border:none;border-radius:var(--r2);cursor:pointer;font-weight:700;font-size:13px;
+          box-shadow:var(--sh2);transition:.2s;text-align:left"
+          onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+          <span style="font-size:20px">🛒</span><span>Nuevo Pedido</span>
+        </button>
+        <button onclick="openModal('modal-nuevo-cliente')"
+          style="display:flex;align-items:center;gap:10px;padding:14px 16px;
+          background:var(--bl);color:var(--ox);
+          border:2px solid var(--cr3);border-radius:var(--r2);cursor:pointer;font-weight:700;font-size:13px;
+          box-shadow:var(--sh);transition:.2s;text-align:left"
+          onmouseover="this.style.borderColor='var(--ox)'" onmouseout="this.style.borderColor='var(--cr3)'">
+          <span style="font-size:20px">👤</span><span>Agregar Cliente</span>
+        </button>
+        <button onclick="navTo('cobrar')"
+          style="display:flex;align-items:center;gap:10px;padding:14px 16px;
+          background:var(--bl);color:var(--ox);
+          border:2px solid var(--cr3);border-radius:var(--r2);cursor:pointer;font-weight:700;font-size:13px;
+          box-shadow:var(--sh);transition:.2s;text-align:left"
+          onmouseover="this.style.borderColor='var(--ox)'" onmouseout="this.style.borderColor='var(--cr3)'">
+          <span style="font-size:20px">💳</span><span>Ver Cobros</span>
+        </button>
+        <button onclick="navTo('rutas')"
+          style="display:flex;align-items:center;gap:10px;padding:14px 16px;
+          background:var(--bl);color:var(--ox);
+          border:2px solid var(--cr3);border-radius:var(--r2);cursor:pointer;font-weight:700;font-size:13px;
+          box-shadow:var(--sh);transition:.2s;text-align:left"
+          onmouseover="this.style.borderColor='var(--ox)'" onmouseout="this.style.borderColor='var(--cr3)'">
+          <span style="font-size:20px">🚚</span><span>Rutas</span>
+        </button>
+      </div>
+
+      <div id="dash-kpis" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px"></div>
       
       <div class="card" style="margin-bottom:14px">
         <div style="font-size:14px;font-weight:700;color:var(--ox);margin-bottom:12px">🏆 Top Productos</div>
@@ -1304,6 +1343,61 @@ tbody tr:hover td{background:var(--cr)}
     <div class="mft">
       <button class="btn btn-s" onclick="closeModal('modal-nuevo-cliente')">Cancelar</button>
       <button class="btn btn-p" onclick="guardarCliente()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ✏️ Editar Cliente -->
+<div class="mover" id="modal-editar-cli">
+  <div class="mbox" style="max-width:520px">
+    <div class="mhd"><h3>✏️ Editar Cliente</h3><button class="btn-x" onclick="closeModal('modal-editar-cli')">✕</button></div>
+    <div class="mbd">
+      <input type="hidden" id="ec-id"/>
+      <div class="fg"><label>Nombre / Razón Social *</label><input type="text" id="ec-nombre" placeholder="PREPA 7"/></div>
+      <div class="fr2">
+        <div class="fg"><label>Dueño / Contacto</label><input type="text" id="ec-dueno" placeholder="Trinidad"/></div>
+        <div class="fg"><label>Teléfono</label><input type="text" id="ec-tel" placeholder="331..."/></div>
+      </div>
+      <div class="fr2">
+        <div class="fg"><label>Dirección</label><input type="text" id="ec-dir" placeholder="Calle #123"/></div>
+        <div class="fg"><label>Colonia / Zona</label><input type="text" id="ec-zona" placeholder="Centro"/></div>
+      </div>
+      <div class="fg"><label>Ruta</label>
+        <select id="ec-ruta">
+          <option value="LUNES">LUNES</option>
+          <option value="MARTES">MARTES</option>
+          <option value="MIÉRCOLES">MIÉRCOLES</option>
+          <option value="JUEVES">JUEVES</option>
+          <option value="VIERNES">VIERNES</option>
+          <option value="SÁBADO">SÁBADO</option>
+        </select>
+      </div>
+      <div class="fr2">
+        <div class="fg"><label>Límite Crédito ($)</label><input type="number" id="ec-credito" value="0" min="0"/></div>
+        <div class="fg"><label>Días de Crédito</label><input type="number" id="ec-dias" value="0" min="0"/></div>
+      </div>
+      <div class="fg"><label>Notas</label><textarea id="ec-notas" rows="2" placeholder="Observaciones sobre el cliente..."></textarea></div>
+
+      <!-- Precios especiales -->
+      <div style="margin-top:16px;padding-top:14px;border-top:1.5px solid var(--cr3)">
+        <div style="font-size:12px;font-weight:800;color:var(--ox);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">⭐ Precios Especiales</div>
+        <div id="ec-precios-lista" style="max-height:140px;overflow-y:auto;margin-bottom:10px"></div>
+        <div class="fr2" style="gap:8px;align-items:flex-end">
+          <div class="fg" style="margin:0;flex:2">
+            <label>Producto</label>
+            <select id="ec-pe-prod" style="font-size:12px"></select>
+          </div>
+          <div class="fg" style="margin:0;flex:1">
+            <label>Precio $</label>
+            <input type="number" id="ec-pe-precio" min="0" placeholder="0.00"/>
+          </div>
+          <button class="btn btn-p btn-sm" onclick="ecAgregarPrecioEsp()" style="flex-shrink:0;white-space:nowrap">+ Agregar</button>
+        </div>
+      </div>
+    </div>
+    <div class="mft">
+      <button class="btn btn-s" onclick="closeModal('modal-editar-cli')">Cancelar</button>
+      <button class="btn btn-p" onclick="guardarEdicionCliente()">💾 Guardar Cambios</button>
     </div>
   </div>
 </div>
