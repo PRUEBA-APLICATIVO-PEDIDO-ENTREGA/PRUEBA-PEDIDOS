@@ -23,18 +23,18 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ox:#1F3A5F;--ox2:#2E4F7A;--ox3:#0D2240;
-  --neg:#111216;
-  --cr:#F7F3EE;--cr2:#EDE7DC;--cr3:#DDD4C5;--cr4:#C8BEAD;
+  --ox:#8B1A1A;--ox2:#A52020;--ox3:#5C0F0F;
+  --neg:#1A0A0A;
+  --cr:#FBF5F0;--cr2:#F5EAE2;--cr3:#E8D5C8;--cr4:#D4B8A8;
   --bl:#FFFFFF;
   --ac:#C49A45;--ac2:#D9B060;--ac3:#F0D9A0;
   --vd:#1A6B42;--vd2:#28935C;
-  --ro:#B01C1C;--ro2:#C62828;
-  --az:#1A4F8C;
+  --ro:#8B1A1A;--ro2:#A52020;
+  --az:#8B1A1A;
   --nr:#B84A0E;
-  --gris:#5C6882;--gris2:#8897B0;
-  --sh:0 2px 14px rgba(31,58,95,.07);
-  --sh2:0 8px 32px rgba(31,58,95,.14);
+  --gris:#6B5050;--gris2:#9B7B7B;
+  --sh:0 2px 14px rgba(139,26,26,.08);
+  --sh2:0 8px 32px rgba(139,26,26,.15);
   --r:16px;--r2:10px;--r3:8px;
   --sw:260px;--th:60px;
 }
@@ -711,7 +711,7 @@ tbody tr:hover td{background:var(--cr)}
   <div class="login-box">
     <div class="login-logo-wrap">
       <div class="login-logo">🥩</div>
-      <h1>Don Emilio</h1>
+      <h1>Fernando Zepeda</h1>
       <div class="login-sub">Sistema Administrativo</div>
     </div>
     <div class="lf">
@@ -748,7 +748,7 @@ tbody tr:hover td{background:var(--cr)}
     <div class="sb-head">
       <div class="sb-logo">🥩</div>
       <div>
-        <div class="sb-brand">Don Emilio</div>
+        <div class="sb-brand">Fernando Zepeda</div>
         <div class="sidebar-sub">Sistema Admin</div>
       </div>
       <button class="sb-x" onclick="closeDrawer()">✕</button>
@@ -814,13 +814,22 @@ tbody tr:hover td{background:var(--cr)}
       <div class="detail-top">
         <button class="btn btn-s btn-sm" onclick="cerrarDetalle('detail-cliente')">← Volver</button>
         <h3 id="det-cli-nombre">Cliente</h3>
-        <button onclick="pedirEliminarCliente()"
-          style="margin-left:auto;padding:7px 14px;background:none;border:1.5px solid var(--ro);
-          color:var(--ro);border-radius:var(--r2);font-size:12px;font-weight:700;cursor:pointer;
-          display:flex;align-items:center;gap:5px;transition:.15s"
-          onmouseover="this.style.background='#fce8e8'" onmouseout="this.style.background='none'">
-          🗑 Eliminar
-        </button>
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button onclick="abrirEditarCliente()"
+            style="padding:7px 14px;background:none;border:1.5px solid var(--ox);
+            color:var(--ox);border-radius:var(--r2);font-size:12px;font-weight:700;cursor:pointer;
+            transition:.15s"
+            onmouseover="this.style.background='var(--cr2)'" onmouseout="this.style.background='none'">
+            ✏️ Editar
+          </button>
+          <button onclick="pedirEliminarCliente()"
+            style="padding:7px 14px;background:none;border:1.5px solid var(--ro);
+            color:var(--ro);border-radius:var(--r2);font-size:12px;font-weight:700;cursor:pointer;
+            transition:.15s"
+            onmouseover="this.style.background='var(--cr2)'" onmouseout="this.style.background='none'">
+            🗑 Eliminar
+          </button>
+        </div>
       </div>
       <div class="detail-body">
         <div class="tabs">
@@ -1265,7 +1274,7 @@ tbody tr:hover td{background:var(--cr)}
       <div class="cfg-sec" style="border:1.5px solid #f5b7b7;border-radius:14px">
         <h3>🔧 Sistema</h3>
         <button class="btn btn-d" onclick="mostrarResetSimple()">🗑 Reset</button>
-        <p style="font-size:11px;color:var(--gris);margin-top:8px">v5.0 — Don Emilio</p>
+        <p style="font-size:11px;color:var(--gris);margin-top:8px">v5.0 — Fernando Zepeda</p>
       </div>
     </div>
 
@@ -1453,7 +1462,7 @@ tbody tr:hover td{background:var(--cr)}
       <div id="ticket-visual" style="background:#fff;font-family:Arial,sans-serif">
         <div style="background:linear-gradient(135deg,#1F3A5F,#2E4F7A);padding:20px 24px 16px;color:#fff;text-align:center">
           <div style="font-size:28px;margin-bottom:4px">🥩</div>
-          <div style="font-size:20px;font-weight:800;letter-spacing:1px">DON EMILIO</div>
+          <div style="font-size:20px;font-weight:800;letter-spacing:1px">FERNANDO ZEPEDA</div>
           <div style="font-size:10px;opacity:.75;letter-spacing:2px;margin-top:2px">DISTRIBUIDORA DE EMBUTIDOS</div>
         </div>
         <div style="padding:14px 20px;border-bottom:1px dashed #ddd">
@@ -1475,7 +1484,7 @@ tbody tr:hover td{background:var(--cr)}
           </div>
         </div>
         <div style="padding:10px 20px;text-align:center;background:#1F3A5F">
-          <div style="font-size:10px;color:rgba(255,255,255,.6)">Don Emilio · Guadalajara, Jalisco</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.6)">Fernando Zepeda · Guadalajara, Jalisco</div>
         </div>
       </div>
     </div>
@@ -1545,7 +1554,6 @@ tbody tr:hover td{background:var(--cr)}
     </div>
   </div>
 </div>
-
 <!-- html2canvas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -2102,6 +2110,98 @@ function pedirEliminarCliente(){
   filtrarClientes();
   poblarSelects();
   showToast('Cliente "'+nombre+'" eliminado ✓','success');
+}
+
+// ── Editar Cliente ────────────────────────────────────────
+function abrirEditarCliente(){
+  if(!currentCli){ showToast('Selecciona un cliente','error'); return; }
+  const c = currentCli;
+  document.getElementById('ec-id').value       = c.id;
+  document.getElementById('ec-nombre').value   = c.nombre||'';
+  document.getElementById('ec-dueno').value    = c.dueno||'';
+  document.getElementById('ec-tel').value      = c.tel||'';
+  document.getElementById('ec-ruta').value     = c.ruta||'LUNES';
+  document.getElementById('ec-dir').value      = c.dir||'';
+  document.getElementById('ec-zona').value     = c.zona||'';
+  document.getElementById('ec-credito').value  = c.credito||0;
+  document.getElementById('ec-dias').value     = c.diasCredito||0;
+  document.getElementById('ec-notas').value    = c.notas||'';
+
+  // Poblar select de productos
+  const prodSel = document.getElementById('ec-pe-prod');
+  prodSel.innerHTML = PRODUCTOS.map(p=>`<option value="${p.id}">${p.nombre} (gral: $${p.precio.toFixed(2)})</option>`).join('');
+
+  // Renderizar lista de precios especiales actuales
+  ecRenderPrecios();
+  openModal('modal-editar-cli');
+}
+
+function ecRenderPrecios(){
+  const c   = currentCli;
+  const el  = document.getElementById('ec-precios-lista');
+  if(!el) return;
+  const pes = c.preciosEsp||[];
+  if(!pes.length){
+    el.innerHTML='<div style="font-size:12px;color:var(--gris);padding:6px 0">Sin precios especiales — usa el precio general para todos los productos.</div>';
+    return;
+  }
+  el.innerHTML = pes.map((pe,i)=>{
+    const prod = PRODUCTOS.find(p=>p.id===pe.prodId);
+    return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;
+      background:var(--cr2);border-radius:8px;margin-bottom:6px;font-size:12px">
+      <div style="flex:1;font-weight:600">${prod?prod.nombre:'Producto #'+pe.prodId}</div>
+      <div style="color:var(--ox);font-weight:700">$${pe.precio.toFixed(2)}</div>
+      <button onclick="ecEliminarPrecio(${i})"
+        style="background:none;border:none;color:var(--ro);cursor:pointer;font-size:14px;padding:0 4px">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function ecAgregarPrecioEsp(){
+  const prodId = parseInt(document.getElementById('ec-pe-prod').value);
+  const precio = parseFloat(document.getElementById('ec-pe-precio').value);
+  if(!prodId||isNaN(precio)||precio<=0){ showToast('Completa producto y precio','error'); return; }
+  if(!currentCli.preciosEsp) currentCli.preciosEsp=[];
+  const existing = currentCli.preciosEsp.find(pe=>pe.prodId===prodId);
+  if(existing){ existing.precio=precio; }
+  else { currentCli.preciosEsp.push({prodId,precio}); }
+  document.getElementById('ec-pe-precio').value='';
+  ecRenderPrecios();
+  showToast('Precio agregado','success');
+}
+
+function ecEliminarPrecio(idx){
+  if(!currentCli.preciosEsp) return;
+  currentCli.preciosEsp.splice(idx,1);
+  ecRenderPrecios();
+}
+
+function guardarEdicionCliente(){
+  const nombre = document.getElementById('ec-nombre').value.trim();
+  if(!nombre){ showToast('El nombre es obligatorio','error'); return; }
+  if(!currentCli){ showToast('Error: sin cliente','error'); return; }
+
+  // Actualizar objeto
+  currentCli.nombre      = nombre;
+  currentCli.dueno       = document.getElementById('ec-dueno').value.trim();
+  currentCli.tel         = document.getElementById('ec-tel').value.trim();
+  currentCli.ruta        = document.getElementById('ec-ruta').value;
+  currentCli.dir         = document.getElementById('ec-dir').value.trim();
+  currentCli.zona        = document.getElementById('ec-zona').value.trim();
+  currentCli.credito     = parseFloat(document.getElementById('ec-credito').value)||0;
+  currentCli.diasCredito = parseInt(document.getElementById('ec-dias').value)||0;
+  currentCli.notas       = document.getElementById('ec-notas').value.trim();
+  // preciosEsp ya se modificaron en tiempo real
+
+  // Guardar Firebase
+  fbSet('clientes', currentCli.id, currentCli);
+
+  // Refrescar UI
+  abrirDetalle(currentCli.id); // recargar detalle con datos nuevos
+  filtrarClientes();
+  poblarSelects();
+  closeModal('modal-editar-cli');
+  showToast('Cliente actualizado ✓','success');
 }
 
 function doLogin(){
@@ -2822,7 +2922,7 @@ async function imprimirTicket(){
     const canvas = await generarCanvasTicket();
     const dataUrl = canvas.toDataURL('image/png');
     const w = window.open('','_blank','width=420,height=700');
-    w.document.write(`<!DOCTYPE html><html><head><title>Ticket Don Emilio</title>
+    w.document.write(`<!DOCTYPE html><html><head><title>Ticket Fernando Zepeda</title>
       <style>*{margin:0;padding:0}body{background:#fff}img{width:100%;display:block}</style></head>
       <body><img src="${dataUrl}" onload="window.print();window.close()"/></body></html>`);
     w.document.close();
@@ -2853,7 +2953,7 @@ async function enviarTicketWA(){
   ).join('\n');
 
   const msg =
-    `🥩 *Don Emilio — Comprobante de Pedido*\n` +
+    `🥩 *Fernando Zepeda — Comprobante de Pedido*\n` +
     `━━━━━━━━━━━━━━━━━━━━\n` +
     `📋 Pedido #${p.id}\n` +
     `📅 ${p.fecha}\n` +
@@ -3778,6 +3878,22 @@ function mostrarPreviewWA(imgUrl, tel, msg, pedidoId){
     </div>`;
   document.body.appendChild(modal);
 }
+
+// ════════════════════════════════════════════════
+//  START
+// ════════════════════════════════════════════════
+// Auto-login si hay param
+(function(){
+  const url=new URLSearchParams(window.location.search);
+  if(url.get('demo')==='1'){
+    document.getElementById('screen-login').style.display='none';
+    document.getElementById('screen-app').style.display='block';
+    initApp();
+  }
+})();
+
+
+// Preview modal antes de enviar WA
 
 </script>
 </body>
